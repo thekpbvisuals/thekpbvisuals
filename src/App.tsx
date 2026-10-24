@@ -340,7 +340,7 @@ I would like to discuss kickoff and availability!`;
             </h1>
 
             <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed max-w-xl mx-auto">
-              We are not a big complicated full stack agency. We craft straightforward, high-converting websites (single-page or multi-page) and design striking social media posters for coaches, academies, clinics, and local brands.
+              We build clean, fast websites and eye-catching social media graphics for up-and-coming brands and growing small-to-medium businesses.
             </p>
           </motion.div>
 
@@ -379,7 +379,7 @@ I would like to discuss kickoff and availability!`;
             </div>
             <div className="p-3.5 rounded-xl bg-white border border-[#E8DFD3] shadow-xs">
               <span className="font-bold text-[#2A1E17] block mb-0.5">Zero Code Stress</span>
-              <span>We handle technical hosting setup, domain linking, and files.</span>
+              <span>We handle all the tech setup, domain linking, and launch details from start to finish.</span>
             </div>
           </motion.div>
         </div>
@@ -404,7 +404,7 @@ I would like to discuss kickoff and availability!`;
               </div>
               <h3 className="text-xl font-bold text-[#1F1611]">Website Creation</h3>
               <p className="text-xs text-[#6E5948] leading-relaxed">
-                Clean, mobile-first websites tailored to your brand. Whether you need a streamlined landing page or a multi-page platform with schedule booking.
+                Clean, mobile-first websites tailored to your brand. Great for everything from a simple single-page site to a full multi-page website with appointment booking.
               </p>
               <ul className="space-y-2 text-xs text-[#5C4A3C]">
                 <li className="flex items-start space-x-2">
@@ -421,7 +421,7 @@ I would like to discuss kickoff and availability!`;
                 </li>
                 <li className="flex items-start space-x-2">
                   <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Direct links to your Facebook Messenger or Mobile phone.</span>
+                  <span>One-tap buttons to message you on Facebook or call your phone.</span>
                 </li>
               </ul>
             </div>
@@ -446,7 +446,7 @@ I would like to discuss kickoff and availability!`;
                 </li>
                 <li className="flex items-start space-x-2">
                   <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Consistent brand color harmony and clear typography.</span>
+                  <span>Consistent brand colors and clean, easy-to-read fonts.</span>
                 </li>
                 <li className="flex items-start space-x-2">
                   <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
@@ -475,7 +475,7 @@ I would like to discuss kickoff and availability!`;
                 </li>
                 <li className="flex items-start space-x-2">
                   <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Growth plan includes 4 bespoke social posters every month!</span>
+                  <span>Our Growth Plan includes 4 custom social media posters every month.</span>
                 </li>
                 <li className="flex items-start space-x-2">
                   <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
@@ -501,7 +501,7 @@ I would like to discuss kickoff and availability!`;
                     Website Packages
                   </h2>
                   <p className="text-xs sm:text-sm text-[#6E5948] leading-relaxed">
-                    Clean, mobile-first websites tailored to your brand. Choose between streamlined single-page or comprehensive multi-page architecture with our honest 50/50 milestone payment terms.
+                    Clean, mobile-first websites tailored to your brand. Choose between streamlined single-page or a full multi-page website, all with simple 50/50 payment terms.
                   </p>
                 </div>
 
@@ -723,7 +723,7 @@ I would like to discuss kickoff and availability!`;
                   </div>
 
                   <p className="text-xs sm:text-sm text-[#6E5948] leading-relaxed">
-                    A single high-converting page where everything is there. Clean, fast, and easy for customers to browse, view your services, and contact you directly.
+                    Everything your customers need on one clean, fast-loading page. Easy for customers to browse, view your services, and contact you directly.
                   </p>
                 </div>
 
@@ -854,7 +854,7 @@ I would like to discuss kickoff and availability!`;
                   </div>
 
                   <p className="text-xs sm:text-sm text-[#6E5948] leading-relaxed">
-                    Single-page with smooth scroll effects, parallax depth cues, bespoke styling, plus 2 Free custom launch posters for your social media!
+                    A modern single-page site with smooth scrolling animations, custom styling, and 2 free social media launch posters.
                   </p>
                 </div>
 
@@ -878,7 +878,7 @@ I would like to discuss kickoff and availability!`;
                     </div>
                     <div className="flex items-start space-x-2">
                       <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
-                      <span>GCash QR & bank details with reference flow</span>
+                      <span>Dedicated payment section for your GCash QR, bank details, and proof of payment instructions.</span>
                     </div>
                     <div className="flex items-start space-x-2">
                       <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
@@ -1056,7 +1056,7 @@ I would like to discuss kickoff and availability!`;
             {/* Monthly Maintenance & Content Care */}
             <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-4 shadow-xs">
               <div className="space-y-3">
-                <span className="text-xs font-bold text-[#8C7A68] uppercase block">Ongoing Help (Affordable)</span>
+                <span className="text-xs font-bold text-[#8C7A68] uppercase block">Monthly Maintenance and Design</span>
 
                 <div className="p-1 bg-[#FBF9F5] border border-[#E8DFD3] rounded-lg flex items-center gap-1">
                   <button
@@ -1102,12 +1102,12 @@ I would like to discuss kickoff and availability!`;
                 <ul className="space-y-2 text-xs text-[#5C4A3C] pt-2 border-t border-[#F2ECE1]">
                   <li className="flex items-center space-x-2">
                     <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Schedule, text & photo updates whenever you need</span>
+                    <span>Regular text, schedule, and photo updates (up to 4 update requests per month)</span>
                   </li>
                   {activeMaintenance === 'growth' ? (
                     <li className="flex items-center space-x-2 font-semibold text-[#2A1E17]">
                       <Sparkles className="w-3.5 h-3.5 text-[#A39171] shrink-0" />
-                      <span>4 custom social media post graphics a month</span>
+                      <span>Complete website care plus 4 fresh, custom social media posters every month.</span>
                     </li>
                   ) : (
                     <li className="flex items-center space-x-2">
@@ -1159,7 +1159,7 @@ I would like to discuss kickoff and availability!`;
                 <ul className="space-y-2 text-xs text-[#5C4A3C] pt-2 border-t border-[#F2ECE1]">
                   <li className="flex items-center space-x-2">
                     <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Optimized for Facebook, Instagram & WhatsApp feeds</span>
+                    <span>Sized perfectly for Facebook, Instagram, Messenger, and TikTok.</span>
                   </li>
                   <li className="flex items-center space-x-2">
                     <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
@@ -1193,9 +1193,9 @@ I would like to discuss kickoff and availability!`;
 
           {/* Honest Note About Domain and Hosting */}
           <div className="p-5 rounded-2xl bg-white border border-[#D9CEBE] text-xs text-[#6E5948] space-y-1.5 shadow-2xs">
-            <strong className="text-[#2A1E17] block text-sm">A quick note about domain and hosting:</strong>
+            <strong className="text-[#2A1E17] block text-sm">A quick note on domains and hosting:</strong>
             <p className="leading-relaxed">
-              The prices above cover our work building, designing, and maintaining your website. For your domain name (like yourbusiness.com) and hosting, you will pay for those directly to the provider (such as Namecheap or Cloudflare). Prices vary depending on what name and plan you choose. We help you set it all up so you own your account directly.
+              Our package prices cover the complete design, build, and setup of your website. We host and manage your website files on our fast servers so you never have to deal with code or monthly hosting fees. The only thing you pay for directly is your custom domain name (like yourbusiness.com via Namecheap or Cloudflare, usually around ₱600–₱900/year). We'll help you set it up so you own your domain name 100%, with zero lock-in.
             </p>
           </div>
         </div>
