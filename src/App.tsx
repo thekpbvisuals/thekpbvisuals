@@ -251,15 +251,14 @@ I would like to discuss kickoff and availability!`;
     <div className="min-h-screen bg-[#FBF9F5] text-[#2A1E17] font-sans selection:bg-[#E8DCCB] selection:text-[#1F1611] overflow-x-clip">
       {/* Top Simple Announcement */}
       <div className="bg-[#2A1E17] text-[#FBF9F5] text-xs py-2 px-4 text-center font-medium">
-        <div className="max-w-5xl mx-auto flex items-center justify-center space-x-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-          <span>Open for new projects • Sites starting at ₱9,999 • 50% kickoff / 50% live launch terms</span>
+        <div className="max-w-6xl mx-auto flex items-center justify-center space-x-2">
+          <span>Open for new projects · Sites starting at ₱9,999 · 50% kickoff / 50% live launch terms</span>
         </div>
       </div>
 
       {/* Navigation Bar */}
       <nav className="border-b border-[#E8DFD3] bg-white/95 backdrop-blur-xs sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div 
             className="flex items-center space-x-3 cursor-pointer" 
             onClick={() => {
@@ -281,11 +280,11 @@ I would like to discuss kickoff and availability!`;
               <span className="font-extrabold tracking-wider text-base text-[#2A1E17] block leading-none">
                 THE KPB VISUALS
               </span>
-              <span className="text-[10px] text-[#7C6958] font-medium">Websites & Social Media</span>
+              <span className="text-[11px] text-[#7C6958] font-medium block mt-0.5">Websites & Social Media</span>
             </div>
           </div>
 
-          <div className="hidden md:flex items-center space-x-7 text-xs font-semibold text-[#6E5948] uppercase tracking-wider">
+          <div className="hidden md:flex items-center space-x-8 text-xs font-semibold text-[#6E5948] uppercase tracking-wider">
             <button onClick={() => scrollTo('services')} className="hover:text-[#2A1E17] transition-colors cursor-pointer">
               Services
             </button>
@@ -305,7 +304,7 @@ I would like to discuss kickoff and availability!`;
 
           <button 
             onClick={() => scrollTo('contact')}
-            className="px-4 py-2 rounded-lg text-xs font-bold bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-lg text-xs font-bold bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors cursor-pointer shadow-2xs"
           >
             Send a Message
           </button>
@@ -313,8 +312,8 @@ I would like to discuss kickoff and availability!`;
       </nav>
 
       {/* Hero Section */}
-      <header ref={heroRef} className="pt-12 pb-16 px-4 sm:px-6 relative">
-        <div className="max-w-3xl mx-auto text-center space-y-5">
+      <header ref={heroRef} className="pt-14 pb-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
           {/* Prominent Official Brand Logo / Featured Visual */}
           <motion.div 
             style={{ scale: heroVisualScale }}
@@ -330,21 +329,21 @@ I would like to discuss kickoff and availability!`;
           </motion.div>
 
           {/* Headline Text with subtle parallax upward drift */}
-          <motion.div style={{ y: headlineY }} className="space-y-4 will-change-transform">
-            <span className="text-xs font-bold tracking-wide text-[#7C6958] uppercase block">
-              The KPB Visuals • Philippine Creative Studio
+          <motion.div style={{ y: headlineY }} className="space-y-4 will-change-transform max-w-3xl mx-auto">
+            <span className="text-xs font-bold tracking-wider text-[#7C6958] uppercase block">
+              The KPB Visuals · Philippine Creative Studio
             </span>
 
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-[#1F1611] tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-[#1F1611] tracking-tight leading-[1.15] text-balance">
               Simple, clean websites and social media graphics for your business.
             </h1>
 
-            <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed max-w-xl mx-auto text-pretty">
               We build clean, fast websites and eye-catching social media graphics for up-and-coming brands and growing small-to-medium businesses.
             </p>
           </motion.div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <button 
               onClick={() => scrollTo('contact')} 
               className="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-xs sm:text-sm bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
@@ -360,125 +359,131 @@ I would like to discuss kickoff and availability!`;
             </button>
           </div>
 
-          {/* Simple points */}
+          {/* 4 Feature Points Strip with aligned cards */}
           <motion.div 
             style={{ scale: heroVisualScale }}
-            className="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-8 text-left text-xs text-[#5C4A3C] origin-top will-change-transform"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-8 text-left max-w-5xl mx-auto origin-top will-change-transform"
           >
-            <div className="p-3.5 rounded-xl bg-white border border-[#E8DFD3] shadow-xs">
-              <span className="font-bold text-[#2A1E17] block mb-0.5">Mobile Friendly</span>
-              <span>100% responsive on smartphones, tablets, & laptops.</span>
+            <div className="p-4 rounded-xl bg-white border border-[#E8DFD3] shadow-xs flex flex-col justify-between space-y-1.5">
+              <span className="font-bold text-[#2A1E17] text-sm block">Mobile Friendly</span>
+              <span className="text-xs text-[#6E5948] leading-relaxed text-pretty">100% responsive on smartphones, tablets, & laptops.</span>
             </div>
-            <div className="p-3.5 rounded-xl bg-white border border-[#E8DFD3] shadow-xs">
-              <span className="font-bold text-[#2A1E17] block mb-0.5">GCash & Bank</span>
-              <span>Clear instructions for customers to pay via GCash, Maya, or bank.</span>
+            <div className="p-4 rounded-xl bg-white border border-[#E8DFD3] shadow-xs flex flex-col justify-between space-y-1.5">
+              <span className="font-bold text-[#2A1E17] text-sm block">GCash & Bank</span>
+              <span className="text-xs text-[#6E5948] leading-relaxed text-pretty">Clear instructions for customers to pay via GCash, Maya, or bank.</span>
             </div>
-            <div className="p-3.5 rounded-xl bg-white border border-[#E8DFD3] shadow-xs">
-              <span className="font-bold text-[#2A1E17] block mb-0.5">3 to 10 Days</span>
-              <span>Realistic, reliable turnaround to launch without delays.</span>
+            <div className="p-4 rounded-xl bg-white border border-[#E8DFD3] shadow-xs flex flex-col justify-between space-y-1.5">
+              <span className="font-bold text-[#2A1E17] text-sm block">3 to 10 Days</span>
+              <span className="text-xs text-[#6E5948] leading-relaxed text-pretty">Realistic, reliable turnaround to launch without delays.</span>
             </div>
-            <div className="p-3.5 rounded-xl bg-white border border-[#E8DFD3] shadow-xs">
-              <span className="font-bold text-[#2A1E17] block mb-0.5">Zero Code Stress</span>
-              <span>We handle all the tech setup, domain linking, and launch details from start to finish.</span>
+            <div className="p-4 rounded-xl bg-white border border-[#E8DFD3] shadow-xs flex flex-col justify-between space-y-1.5">
+              <span className="font-bold text-[#2A1E17] text-sm block">Zero Code Stress</span>
+              <span className="text-xs text-[#6E5948] leading-relaxed text-pretty">We handle all the tech setup, domain linking, and launch details from start to finish.</span>
             </div>
           </motion.div>
         </div>
       </header>
 
       {/* Services Section - Clean & Focused on What We Deliver */}
-      <section id="services" className="py-14 px-4 sm:px-6 bg-[#F3EDE3]/40 border-y border-[#E8DFD3]">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="space-y-1">
-            <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68]">Our Core Services</span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#1F1611]">What We Create For You</h2>
-            <p className="text-xs sm:text-sm text-[#6E5948]">
+      <section id="services" className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F3EDE3]/40 border-y border-[#E8DFD3]">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <div className="space-y-2 max-w-2xl">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68] block">Our Core Services</span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1F1611] tracking-tight">What We Create For You</h2>
+            <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
               Straightforward digital solutions built for everyday business growth without unnecessary complexity.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Service 1: Websites */}
-            <div className="p-6 rounded-2xl bg-white border border-[#E2D6C5] space-y-4 shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
-                <Laptop className="w-5 h-5 text-[#8C7A68]" />
+            <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
+              <div className="space-y-4">
+                <div className="w-11 h-11 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
+                  <Laptop className="w-5 h-5 text-[#8C7A68]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#1F1611] tracking-tight">Website Creation</h3>
+                <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
+                  Clean, mobile-first websites tailored to your brand. Great for everything from a simple single-page site to a full multi-page website with appointment booking.
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-[#1F1611]">Website Creation</h3>
-              <p className="text-xs text-[#6E5948] leading-relaxed">
-                Clean, mobile-first websites tailored to your brand. Great for everything from a simple single-page site to a full multi-page website with appointment booking.
-              </p>
-              <ul className="space-y-2 text-xs text-[#5C4A3C]">
-                <li className="flex items-start space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+              <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-4 border-t border-[#F2ECE1]">
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <span>Smooth mobile, tablet, and desktop experience.</span>
                 </li>
-                <li className="flex items-start space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <span>Clear service offerings, pricing, & Google Maps.</span>
                 </li>
-                <li className="flex items-start space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <span>Payment page showing your GCash QR & bank details.</span>
                 </li>
-                <li className="flex items-start space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <span>One-tap buttons to message you on Facebook or call your phone.</span>
                 </li>
               </ul>
             </div>
 
             {/* Service 2: Social Media Graphics */}
-            <div className="p-6 rounded-2xl bg-white border border-[#E2D6C5] space-y-4 shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
-                <Smartphone className="w-5 h-5 text-[#8C7A68]" />
+            <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
+              <div className="space-y-4">
+                <div className="w-11 h-11 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
+                  <Smartphone className="w-5 h-5 text-[#8C7A68]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#1F1611] tracking-tight">Social Media Graphics</h3>
+                <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
+                  Eye-catching, readable graphics for your Facebook page or Instagram feed so your business looks credible, organized, and professional.
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-[#1F1611]">Social Media Graphics</h3>
-              <p className="text-xs text-[#6E5948] leading-relaxed">
-                Eye-catching, readable graphics for your Facebook page or Instagram feed so your business looks credible, organized, and professional.
-              </p>
-              <ul className="space-y-2 text-xs text-[#5C4A3C]">
-                <li className="flex items-start space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+              <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-4 border-t border-[#F2ECE1]">
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <span>Class schedules, tournament flyers, or sale posters.</span>
                 </li>
-                <li className="flex items-start space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <span>Facebook cover banners & story announcement graphics.</span>
                 </li>
-                <li className="flex items-start space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <span>Consistent brand colors and clean, easy-to-read fonts.</span>
                 </li>
-                <li className="flex items-start space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <span>High-resolution exports ready for instant publishing.</span>
                 </li>
               </ul>
             </div>
 
             {/* Service 3: Monthly Maintenance */}
-            <div className="p-6 rounded-2xl bg-white border border-[#E2D6C5] space-y-4 shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
-                <Clock className="w-5 h-5 text-[#8C7A68]" />
+            <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
+              <div className="space-y-4">
+                <div className="w-11 h-11 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
+                  <Clock className="w-5 h-5 text-[#8C7A68]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#1F1611] tracking-tight">Monthly Site Care</h3>
+                <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
+                  Hands-off website maintenance. We keep your site fast, secure, and handle text or photo updates whenever your schedules or prices change.
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-[#1F1611]">Monthly Site Care</h3>
-              <p className="text-xs text-[#6E5948] leading-relaxed">
-                Hands-off website maintenance. We keep your site fast, secure, and handle text or photo updates whenever your schedules or prices change.
-              </p>
-              <ul className="space-y-2 text-xs text-[#5C4A3C]">
-                <li className="flex items-start space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+              <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-4 border-t border-[#F2ECE1]">
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <span>Speed audits, uptime checks, and security monitoring.</span>
                 </li>
-                <li className="flex items-start space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <span>Schedule & content updates whenever you need them.</span>
                 </li>
-                <li className="flex items-start space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <span>Our Growth Plan includes 4 custom social media posters every month.</span>
                 </li>
-                <li className="flex items-start space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <span>Direct chat support via Facebook Messenger.</span>
                 </li>
               </ul>
@@ -488,7 +493,7 @@ I would like to discuss kickoff and availability!`;
       </section>
 
       {/* Website Packages & Deliverables Section - Sticky Split-Screen Showcase */}
-      <section id="pricing" className="py-20 px-4 sm:px-6">
+      <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto space-y-12">
           {/* Main Sticky Split-Screen Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
@@ -496,17 +501,17 @@ I would like to discuss kickoff and availability!`;
             <div className="lg:col-span-5 relative">
               <div className="lg:sticky lg:top-28 space-y-6">
                 <div className="space-y-2">
-                  <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68]">Transparent Packages</span>
+                  <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68] block">Transparent Packages</span>
                   <h2 className="text-2xl sm:text-4xl font-extrabold text-[#1F1611] tracking-tight">
                     Website Packages
                   </h2>
-                  <p className="text-xs sm:text-sm text-[#6E5948] leading-relaxed">
+                  <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
                     Clean, mobile-first websites tailored to your brand. Choose between streamlined single-page or a full multi-page website, all with simple 50/50 payment terms.
                   </p>
                 </div>
 
                 {/* Currency switcher */}
-                <div className="flex items-center justify-between p-3 bg-white border border-[#D9CEBE] rounded-xl shadow-2xs">
+                <div className="flex items-center justify-between p-3.5 bg-white border border-[#D9CEBE] rounded-xl shadow-2xs">
                   <span className="text-xs font-semibold text-[#5C4A3C]">Display Currency:</span>
                   <div className="flex items-center gap-1 p-0.5 bg-[#FBF9F5] border border-[#E8DFD3] rounded-lg">
                     <button
@@ -532,9 +537,9 @@ I would like to discuss kickoff and availability!`;
 
                 {/* Interactive Package Selector (Syncs with scroll & allows jump-click) */}
                 <div className="space-y-2.5">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#8C7A68] flex items-center justify-between">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#8C7A68] flex items-center justify-between">
                     <span>Website Tiers (Click to Jump):</span>
-                    <span className="text-[10px] text-[#A39171] font-semibold">
+                    <span className="text-[11px] text-[#A39171] font-semibold">
                       Viewing: {activeWebsiteTier === 'basic' ? 'Basic' : activeWebsiteTier === 'immersive' ? 'Immersive' : 'Multi-Page'}
                     </span>
                   </div>
@@ -551,18 +556,17 @@ I would like to discuss kickoff and availability!`;
                   >
                     <div className="space-y-1">
                       <div className="flex items-center space-x-2">
-                        <span className={`w-2 h-2 rounded-full ${activeWebsiteTier === 'basic' ? 'bg-emerald-400 animate-pulse' : 'bg-[#D9CEBE]'}`}></span>
                         <span className="font-bold text-sm">Single-Page Basic</span>
                       </div>
-                      <span className={`text-[11px] block ${activeWebsiteTier === 'basic' ? 'text-[#D9CEBE]' : 'text-[#7C6958]'}`}>
-                        Streamlined all-in-one scroll • 3–5 Days
+                      <span className={`text-xs block ${activeWebsiteTier === 'basic' ? 'text-[#D9CEBE]' : 'text-[#7C6958]'}`}>
+                        Streamlined all-in-one scroll · 3–5 Days
                       </span>
                     </div>
                     <div className="text-right">
                       <span className={`text-base font-extrabold font-mono tabular-nums block ${activeWebsiteTier === 'basic' ? 'text-[#FBF9F5]' : 'text-[#2A1E17]'}`}>
                         {formatPrice(9999, 179)}
                       </span>
-                      <span className={`text-[10px] font-medium ${activeWebsiteTier === 'basic' ? 'text-[#C9BDAF]' : 'text-[#8C7A68]'}`}>one-time</span>
+                      <span className={`text-[11px] font-medium ${activeWebsiteTier === 'basic' ? 'text-[#C9BDAF]' : 'text-[#8C7A68]'}`}>one-time</span>
                     </div>
                   </button>
 
@@ -578,21 +582,20 @@ I would like to discuss kickoff and availability!`;
                   >
                     <div className="space-y-1">
                       <div className="flex items-center space-x-2">
-                        <span className={`w-2 h-2 rounded-full ${activeWebsiteTier === 'immersive' ? 'bg-amber-400 animate-pulse' : 'bg-[#D9CEBE]'}`}></span>
                         <span className="font-bold text-sm flex items-center gap-1.5">
                           <span>Single-Page Immersive</span>
                           <Sparkles className="w-3.5 h-3.5 text-[#E6C687]" />
                         </span>
                       </div>
-                      <span className={`text-[11px] block ${activeWebsiteTier === 'immersive' ? 'text-[#D9CEBE]' : 'text-[#7C6958]'}`}>
-                        Scroll motion + 2 Free Posters • 5–7 Days
+                      <span className={`text-xs block ${activeWebsiteTier === 'immersive' ? 'text-[#D9CEBE]' : 'text-[#7C6958]'}`}>
+                        Scroll motion + 2 Free Posters · 5–7 Days
                       </span>
                     </div>
                     <div className="text-right">
                       <span className={`text-base font-extrabold font-mono tabular-nums block ${activeWebsiteTier === 'immersive' ? 'text-[#FBF9F5]' : 'text-[#2A1E17]'}`}>
                         {formatPrice(12499, 225)}
                       </span>
-                      <span className={`text-[10px] font-medium ${activeWebsiteTier === 'immersive' ? 'text-[#C9BDAF]' : 'text-[#8C7A68]'}`}>one-time</span>
+                      <span className={`text-[11px] font-medium ${activeWebsiteTier === 'immersive' ? 'text-[#C9BDAF]' : 'text-[#8C7A68]'}`}>one-time</span>
                     </div>
                   </button>
 
@@ -608,32 +611,31 @@ I would like to discuss kickoff and availability!`;
                   >
                     <div className="space-y-1">
                       <div className="flex items-center space-x-2">
-                        <span className={`w-2 h-2 rounded-full ${activeWebsiteTier === 'multipage' ? 'bg-blue-400 animate-pulse' : 'bg-[#D9CEBE]'}`}></span>
                         <span className="font-bold text-sm flex items-center gap-1.5">
                           <span>Multi-Page Website</span>
                           <Layers className="w-3.5 h-3.5 text-[#E6C687]" />
                         </span>
                       </div>
-                      <span className={`text-[11px] block ${activeWebsiteTier === 'multipage' ? 'text-[#D9CEBE]' : 'text-[#7C6958]'}`}>
-                        Up to 4 Pages + 4 Free Posters • 7–10 Days
+                      <span className={`text-xs block ${activeWebsiteTier === 'multipage' ? 'text-[#D9CEBE]' : 'text-[#7C6958]'}`}>
+                        Up to 4 Pages + 4 Free Posters · 7–10 Days
                       </span>
                     </div>
                     <div className="text-right">
                       <span className={`text-base font-extrabold font-mono tabular-nums block ${activeWebsiteTier === 'multipage' ? 'text-[#FBF9F5]' : 'text-[#2A1E17]'}`}>
                         Starts {formatPrice(17999, 320)}
                       </span>
-                      <span className={`text-[10px] font-medium ${activeWebsiteTier === 'multipage' ? 'text-[#C9BDAF]' : 'text-[#8C7A68]'}`}>one-time</span>
+                      <span className={`text-[11px] font-medium ${activeWebsiteTier === 'multipage' ? 'text-[#C9BDAF]' : 'text-[#8C7A68]'}`}>one-time</span>
                     </div>
                   </button>
                 </div>
 
                 {/* Honest Milestone & Fast Inquiry Box */}
-                <div className="p-4 rounded-2xl bg-[#F6F1E9] border border-[#E2D6C5] space-y-3">
+                <div className="p-4 sm:p-5 rounded-2xl bg-[#F6F1E9] border border-[#E2D6C5] space-y-3">
                   <div className="flex items-center space-x-2 text-xs font-bold text-[#2A1E17]">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>50% Kickoff / 50% Launch Milestone</span>
                   </div>
-                  <p className="text-[11px] text-[#6E5948] leading-relaxed">
+                  <p className="text-xs text-[#6E5948] leading-relaxed text-pretty">
                     50% downpayment upon kickoff to begin the design. The remaining 50% only when your website is completed, approved on private staging, and ready to launch.
                   </p>
                   <button
@@ -695,10 +697,10 @@ I would like to discuss kickoff and availability!`;
                 </div>
 
                 {/* Card Body */}
-                <div className="space-y-3">
+                <div className="space-y-3.5">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-[#8C7A68] uppercase tracking-wider block">Starter Tier</span>
-                    <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    <span className="text-xs font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200">
                       Clean & High-Converting
                     </span>
                   </div>
@@ -707,7 +709,7 @@ I would like to discuss kickoff and availability!`;
                     Single-Page Basic
                   </h3>
 
-                  <div className="flex items-baseline space-x-2">
+                  <div className="flex items-baseline space-x-2.5">
                     <span className="text-3xl sm:text-4xl font-extrabold text-[#2A1E17] font-mono tabular-nums">
                       {formatPrice(9999, 179)}
                     </span>
@@ -715,57 +717,57 @@ I would like to discuss kickoff and availability!`;
                   </div>
 
                   {/* 50/50 breakdown chip */}
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F8F5EE] border border-[#E8DFD3] text-xs text-[#5C4A3C]">
+                  <div className="inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F8F5EE] border border-[#E8DFD3] text-xs text-[#5C4A3C]">
                     <span className="font-semibold text-[#2A1E17]">Milestone:</span>
                     <span>50% Kickoff ({formatPrice(4999.5, 89.5)})</span>
-                    <span>•</span>
+                    <span>·</span>
                     <span>50% Live Approval ({formatPrice(4999.5, 89.5)})</span>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-[#6E5948] leading-relaxed">
+                  <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
                     Everything your customers need on one clean, fast-loading page. Easy for customers to browse, view your services, and contact you directly.
                   </p>
                 </div>
 
                 {/* Deliverables Checklist */}
-                <div className="space-y-2.5 pt-4 border-t border-[#F2ECE1]">
+                <div className="space-y-3 pt-4 border-t border-[#F2ECE1]">
                   <span className="text-xs font-bold text-[#2A1E17] block uppercase tracking-wider">
                     What You Get in Single-Page Basic:
                   </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-[#5C4A3C]">
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-[#5C4A3C]">
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>Single-page all-in-one scroll layout</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>100% mobile friendly on phones & tablets</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>Contact form & direct Messenger links</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>GCash & bank transfer payment details</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>Zero code stress: hosting & domain setup</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>Realistic 3–5 day turnaround to launch</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Card Actions */}
-                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <div className="flex flex-col sm:flex-row gap-3 pt-3">
                   <button
                     type="button"
                     onClick={() => handleSelectPackage('starter-basic')}
-                    className="flex-1 py-3 px-4 rounded-xl text-xs font-bold bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
+                    className="flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
                   >
                     <span>Inquire About Basic ({formatPrice(9999, 179)})</span>
                     <ArrowRight className="w-4 h-4" />
@@ -776,7 +778,7 @@ I would like to discuss kickoff and availability!`;
                       setCalcWebsite('starter-basic');
                       scrollTo('estimator');
                     }}
-                    className="py-3 px-4 rounded-xl text-xs font-bold bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#EFE8DD] transition-colors cursor-pointer"
+                    className="py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#EFE8DD] transition-colors cursor-pointer"
                   >
                     <span>Calculate in Estimator</span>
                   </button>
@@ -825,10 +827,10 @@ I would like to discuss kickoff and availability!`;
                 </div>
 
                 {/* Card Body */}
-                <div className="space-y-3">
+                <div className="space-y-3.5">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-[#A39171] uppercase tracking-wider block">Enhanced Studio Tier</span>
-                    <span className="text-[11px] font-bold text-[#2A1E17] bg-[#F3EDE3] px-2 py-0.5 rounded border border-[#D9CEBE]">
+                    <span className="text-xs font-bold text-[#2A1E17] bg-[#F3EDE3] px-2.5 py-0.5 rounded border border-[#D9CEBE]">
                       ★ Most Popular Choice
                     </span>
                   </div>
@@ -838,7 +840,7 @@ I would like to discuss kickoff and availability!`;
                     <Sparkles className="w-5 h-5 text-[#A39171]" />
                   </h3>
 
-                  <div className="flex items-baseline space-x-2">
+                  <div className="flex items-baseline space-x-2.5">
                     <span className="text-3xl sm:text-4xl font-extrabold text-[#2A1E17] font-mono tabular-nums">
                       {formatPrice(12499, 225)}
                     </span>
@@ -846,57 +848,57 @@ I would like to discuss kickoff and availability!`;
                   </div>
 
                   {/* 50/50 breakdown chip */}
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F8F5EE] border border-[#E8DFD3] text-xs text-[#5C4A3C]">
+                  <div className="inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F8F5EE] border border-[#E8DFD3] text-xs text-[#5C4A3C]">
                     <span className="font-semibold text-[#2A1E17]">Milestone:</span>
                     <span>50% Kickoff ({formatPrice(6249.5, 112.5)})</span>
-                    <span>•</span>
+                    <span>·</span>
                     <span>50% Live Approval ({formatPrice(6249.5, 112.5)})</span>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-[#6E5948] leading-relaxed">
+                  <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
                     A modern single-page site with smooth scrolling animations, custom styling, and 2 free social media launch posters.
                   </p>
                 </div>
 
                 {/* Deliverables Checklist */}
-                <div className="space-y-2.5 pt-4 border-t border-[#F2ECE1]">
+                <div className="space-y-3 pt-4 border-t border-[#F2ECE1]">
                   <span className="text-xs font-bold text-[#2A1E17] block uppercase tracking-wider">
                     Everything in Basic Plus:
                   </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-[#5C4A3C]">
-                    <div className="flex items-start space-x-2 font-semibold text-[#2A1E17]">
-                      <Sparkles className="w-3.5 h-3.5 text-[#A39171] mt-0.5 shrink-0" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-[#5C4A3C]">
+                    <div className="flex items-start gap-2.5 leading-snug font-semibold text-[#2A1E17]">
+                      <Sparkles className="w-4 h-4 text-[#A39171] mt-0.5 shrink-0" />
                       <span>Scroll motion & parallax depth cues</span>
                     </div>
-                    <div className="flex items-start space-x-2 font-semibold text-[#2A1E17]">
-                      <Sparkles className="w-3.5 h-3.5 text-[#A39171] mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug font-semibold text-[#2A1E17]">
+                      <Sparkles className="w-4 h-4 text-[#A39171] mt-0.5 shrink-0" />
                       <span>2 Free Custom Social Media Posters</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>Bespoke styling and refined typography</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>Dedicated payment section for your GCash QR, bank details, and proof of payment instructions.</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>Full responsive layout for all mobile screens</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>5–7 business days turnaround</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Card Actions */}
-                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <div className="flex flex-col sm:flex-row gap-3 pt-3">
                   <button
                     type="button"
                     onClick={() => handleSelectPackage('starter-immersive')}
-                    className="flex-1 py-3 px-4 rounded-xl text-xs font-bold bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
+                    className="flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
                   >
                     <span>Inquire About Immersive ({formatPrice(12499, 225)})</span>
                     <ArrowRight className="w-4 h-4" />
@@ -907,7 +909,7 @@ I would like to discuss kickoff and availability!`;
                       setCalcWebsite('starter-immersive');
                       scrollTo('estimator');
                     }}
-                    className="py-3 px-4 rounded-xl text-xs font-bold bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#EFE8DD] transition-colors cursor-pointer"
+                    className="py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#EFE8DD] transition-colors cursor-pointer"
                   >
                     <span>Calculate in Estimator</span>
                   </button>
@@ -934,7 +936,7 @@ I would like to discuss kickoff and availability!`;
                     </div>
                     <span className="text-[11px] font-semibold text-[#5C4A3C] bg-white px-2 py-0.5 rounded border border-[#E2D6C5] flex items-center gap-1">
                       <Clock className="w-3 h-3 text-[#8C7A68]" />
-                      <span>7–10 Days • Up to 4 Pages</span>
+                      <span>7–10 Days · Up to 4 Pages</span>
                     </span>
                   </div>
 
@@ -948,7 +950,7 @@ I would like to discuss kickoff and availability!`;
                     </div>
                     <div className="flex items-center justify-between text-[#7C6958] px-1">
                       <span>Structured Architecture & Navigation Menu</span>
-                      <span className="font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                      <span className="font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                         🎁 4 Free Posters Included!
                       </span>
                     </div>
@@ -956,11 +958,11 @@ I would like to discuss kickoff and availability!`;
                 </div>
 
                 {/* Card Body */}
-                <div className="space-y-3">
+                <div className="space-y-3.5">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-[#A39171] uppercase tracking-wider block">Comprehensive Platform</span>
-                    <span className="text-[11px] font-semibold text-[#2A1E17] bg-[#F3EDE3] px-2 py-0.5 rounded border border-[#D9CEBE] flex items-center gap-1">
-                      <Layers className="w-3 h-3" />
+                    <span className="text-xs font-semibold text-[#2A1E17] bg-[#F3EDE3] px-2.5 py-0.5 rounded border border-[#D9CEBE] flex items-center gap-1">
+                      <Layers className="w-3.5 h-3.5" />
                       <span>Up to 4 Custom Pages</span>
                     </span>
                   </div>
@@ -969,69 +971,69 @@ I would like to discuss kickoff and availability!`;
                     Multi-Page Website
                   </h3>
 
-                  <div className="flex items-baseline space-x-2">
+                  <div className="flex items-baseline space-x-2.5">
                     <span className="text-3xl sm:text-4xl font-extrabold text-[#2A1E17] font-mono tabular-nums">
                       Starts at {formatPrice(17999, 320)}
                     </span>
                     <span className="text-xs text-[#7C6958] font-medium">one-time starting offer</span>
                   </div>
 
-                  <p className="text-[11px] text-[#8C7A68] font-medium">
+                  <p className="text-xs text-[#8C7A68] font-medium">
                     *Starting price; will adjust depending on specific client requests and total pages required.
                   </p>
 
                   {/* 50/50 breakdown chip */}
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F8F5EE] border border-[#E8DFD3] text-xs text-[#5C4A3C]">
+                  <div className="inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F8F5EE] border border-[#E8DFD3] text-xs text-[#5C4A3C]">
                     <span className="font-semibold text-[#2A1E17]">Milestone:</span>
                     <span>50% Kickoff (~{formatPrice(8999.5, 160)})</span>
-                    <span>•</span>
+                    <span>·</span>
                     <span>50% Live Approval (~{formatPrice(8999.5, 160)})</span>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-[#6E5948] leading-relaxed">
+                  <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
                     For businesses, academies, clinics, or coaches needing structured depth: Home, About/Story, Services/Catalog, and Contact.
                   </p>
                 </div>
 
                 {/* Deliverables Checklist */}
-                <div className="space-y-2.5 pt-4 border-t border-[#F2ECE1]">
+                <div className="space-y-3 pt-4 border-t border-[#F2ECE1]">
                   <span className="text-xs font-bold text-[#2A1E17] block uppercase tracking-wider">
                     What You Get in Multi-Page Website:
                   </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-[#5C4A3C]">
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-[#5C4A3C]">
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>Up to 4 custom pages (Home + 3 dedicated pages)</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>Services / class schedules / catalog menu</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>GCash / bank payment details & reference flow</span>
                     </div>
-                    <div className="flex items-start space-x-2 font-semibold text-[#2A1E17]">
-                      <Sparkles className="w-3.5 h-3.5 text-[#A39171] mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug font-semibold text-[#2A1E17]">
+                      <Sparkles className="w-4 h-4 text-[#A39171] mt-0.5 shrink-0" />
                       <span>Includes 4 Free Custom Social Media Posters</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>Complete technical setup, hosting & domain linking</span>
                     </div>
-                    <div className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>7–10 days turnaround with thorough staging review</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Card Actions */}
-                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <div className="flex flex-col sm:flex-row gap-3 pt-3">
                   <button
                     type="button"
                     onClick={() => handleSelectPackage('multipage')}
-                    className="flex-1 py-3 px-4 rounded-xl text-xs font-bold bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
+                    className="flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
                   >
                     <span>Inquire About Multi-Page (Starts {formatPrice(17999, 320)})</span>
                     <ArrowRight className="w-4 h-4" />
@@ -1042,7 +1044,7 @@ I would like to discuss kickoff and availability!`;
                       setCalcWebsite('multipage');
                       scrollTo('estimator');
                     }}
-                    className="py-3 px-4 rounded-xl text-xs font-bold bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#EFE8DD] transition-colors cursor-pointer"
+                    className="py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#EFE8DD] transition-colors cursor-pointer"
                   >
                     <span>Calculate in Estimator</span>
                   </button>
@@ -1052,18 +1054,18 @@ I would like to discuss kickoff and availability!`;
           </div>
 
           {/* Complementary Services: Monthly Maintenance & Social Posters */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-[#E8DFD3]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8 border-t border-[#E8DFD3]">
             {/* Monthly Maintenance & Content Care */}
-            <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-4 shadow-xs">
-              <div className="space-y-3">
-                <span className="text-xs font-bold text-[#8C7A68] uppercase block">Monthly Maintenance and Design</span>
+            <div className="p-6 sm:p-8 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
+              <div className="space-y-4">
+                <span className="text-xs font-bold text-[#8C7A68] uppercase tracking-wider block">Monthly Maintenance and Design</span>
 
                 <div className="p-1 bg-[#FBF9F5] border border-[#E8DFD3] rounded-lg flex items-center gap-1">
                   <button
                     type="button"
                     onClick={() => setActiveMaintenance('guardian')}
-                    className={`flex-1 py-1.5 px-2 text-[11px] font-bold rounded-md transition-all cursor-pointer ${
-                      activeMaintenance === 'guardian' ? 'bg-[#2A1E17] text-white' : 'text-[#6E5948] hover:text-[#2A1E17]'
+                    className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-md transition-all cursor-pointer ${
+                      activeMaintenance === 'guardian' ? 'bg-[#2A1E17] text-white shadow-xs' : 'text-[#6E5948] hover:text-[#2A1E17]'
                     }`}
                   >
                     Site Guardian
@@ -1071,52 +1073,53 @@ I would like to discuss kickoff and availability!`;
                   <button
                     type="button"
                     onClick={() => setActiveMaintenance('growth')}
-                    className={`flex-1 py-1.5 px-2 text-[11px] font-bold rounded-md transition-all cursor-pointer ${
-                      activeMaintenance === 'growth' ? 'bg-[#2A1E17] text-white' : 'text-[#6E5948] hover:text-[#2A1E17]'
+                    className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-md transition-all cursor-pointer ${
+                      activeMaintenance === 'growth' ? 'bg-[#2A1E17] text-white shadow-xs' : 'text-[#6E5948] hover:text-[#2A1E17]'
                     }`}
                   >
                     Web + 4 Posters
                   </button>
                 </div>
 
-                <h3 className="text-xl font-bold text-[#1F1611]">
-                  {activeMaintenance === 'guardian' ? 'Site Guardian' : 'Growth Partner (Web + Posters)'}
-                </h3>
-
-                <div>
-                  <span className="text-2xl font-bold text-[#2A1E17] tabular-nums">
-                    {activeMaintenance === 'guardian' ? formatPrice(999, 18) : formatPrice(1999, 36)}
-                  </span>
-                  <span className="text-xs text-[#7C6958] ml-1">/ month</span>
-                  <p className="text-[11px] text-[#8C7A68] mt-1 font-medium">
+                <div className="space-y-1">
+                  <h3 className="text-xl sm:text-2xl font-bold text-[#1F1611]">
+                    {activeMaintenance === 'guardian' ? 'Site Guardian' : 'Growth Partner (Web + Posters)'}
+                  </h3>
+                  <div className="flex items-baseline space-x-1.5">
+                    <span className="text-2xl sm:text-3xl font-extrabold text-[#2A1E17] font-mono tabular-nums">
+                      {activeMaintenance === 'guardian' ? formatPrice(999, 18) : formatPrice(1999, 36)}
+                    </span>
+                    <span className="text-xs text-[#7C6958]">/ month</span>
+                  </div>
+                  <p className="text-xs text-[#8C7A68] font-medium">
                     *Starting rate; subject to change depending on client requests.
                   </p>
                 </div>
 
-                <p className="text-xs text-[#6E5948] leading-relaxed">
+                <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
                   {activeMaintenance === 'guardian'
                     ? 'Speed, security, uptime checks, and up to 3 text/photo revisions every month.'
                     : 'Full website care PLUS 4 fresh, custom-designed social media posters designed every month!'}
                 </p>
 
-                <ul className="space-y-2 text-xs text-[#5C4A3C] pt-2 border-t border-[#F2ECE1]">
-                  <li className="flex items-center space-x-2">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-3 border-t border-[#F2ECE1]">
+                  <li className="flex items-start gap-2.5 leading-snug">
+                    <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                     <span>Regular text, schedule, and photo updates (up to 4 update requests per month)</span>
                   </li>
                   {activeMaintenance === 'growth' ? (
-                    <li className="flex items-center space-x-2 font-semibold text-[#2A1E17]">
-                      <Sparkles className="w-3.5 h-3.5 text-[#A39171] shrink-0" />
+                    <li className="flex items-start gap-2.5 leading-snug font-semibold text-[#2A1E17]">
+                      <Sparkles className="w-4 h-4 text-[#A39171] mt-0.5 shrink-0" />
                       <span>Complete website care plus 4 fresh, custom social media posters every month.</span>
                     </li>
                   ) : (
-                    <li className="flex items-center space-x-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <li className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>Up to 3 minor site revisions/month</span>
                     </li>
                   )}
-                  <li className="flex items-center space-x-2">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <li className="flex items-start gap-2.5 leading-snug">
+                    <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                     <span>Direct messaging whenever you have questions</span>
                   </li>
                 </ul>
@@ -1125,65 +1128,65 @@ I would like to discuss kickoff and availability!`;
               <button
                 type="button"
                 onClick={() => handleSelectPackage(`maintenance-${activeMaintenance}`)}
-                className="w-full py-2.5 rounded-lg text-xs font-semibold text-center bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#2A1E17] hover:text-white transition-colors cursor-pointer"
+                className="w-full py-3 rounded-xl text-xs sm:text-sm font-bold text-center bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#2A1E17] hover:text-white transition-colors cursor-pointer shadow-2xs"
               >
                 Inquire About {activeMaintenance === 'guardian' ? 'Site Guardian (Starts ₱999)' : 'Growth Partner (Starts ₱1,999)'}
               </button>
             </div>
 
             {/* Standalone Social Media Poster Bundles */}
-            <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#D9CEBE] flex flex-col justify-between space-y-4 shadow-xs">
-              <div className="space-y-3">
-                <div className="flex items-center gap-1.5 text-xs font-bold uppercase text-[#8C7A68]">
+            <div className="p-6 sm:p-8 rounded-2xl bg-white border border-[#D9CEBE] flex flex-col justify-between space-y-5 shadow-xs">
+              <div className="space-y-4">
+                <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#8C7A68]">
                   <Palette className="w-4 h-4 text-[#8C7A68]" />
                   <span>Standalone Graphic Design</span>
                 </div>
-                <h3 className="text-xl font-bold text-[#1F1611]">Social Media Poster Bundles</h3>
-                <p className="text-xs text-[#6E5948] leading-relaxed">
+                <h3 className="text-xl sm:text-2xl font-bold text-[#1F1611]">Social Media Poster Bundles</h3>
+                <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
                   Need eye-catching, ready-to-post graphics without getting a website? We craft tailored promos, event flyers, tournament graphics, or announcements.
                 </p>
 
-                <div className="grid grid-cols-2 gap-3 pt-2">
-                  <div className="p-3 bg-[#FBF9F5] border border-[#E8DFD3] rounded-xl text-center">
+                <div className="grid grid-cols-2 gap-3 pt-1">
+                  <div className="p-3.5 bg-[#FBF9F5] border border-[#E8DFD3] rounded-xl text-center">
                     <span className="text-xs font-bold text-[#2A1E17] block">Starter 3-Pack</span>
-                    <span className="text-lg font-black text-[#2A1E17] font-mono block mt-0.5">₱999</span>
-                    <span className="text-[10px] text-[#7C6958]">₱333 per poster</span>
+                    <span className="text-xl font-black text-[#2A1E17] font-mono block mt-0.5 tabular-nums">₱999</span>
+                    <span className="text-xs text-[#7C6958]">₱333 per poster</span>
                   </div>
-                  <div className="p-3 bg-[#FBF9F5] border border-[#E8DFD3] rounded-xl text-center">
+                  <div className="p-3.5 bg-[#FBF9F5] border border-[#E8DFD3] rounded-xl text-center">
                     <span className="text-xs font-bold text-[#2A1E17] block">Campaign 8-Pack</span>
-                    <span className="text-lg font-black text-[#2A1E17] font-mono block mt-0.5">₱2,499</span>
-                    <span className="text-[10px] text-[#7C6958]">₱312 per poster</span>
+                    <span className="text-xl font-black text-[#2A1E17] font-mono block mt-0.5 tabular-nums">₱2,499</span>
+                    <span className="text-xs text-[#7C6958]">₱312 per poster</span>
                   </div>
                 </div>
 
-                <ul className="space-y-2 text-xs text-[#5C4A3C] pt-2 border-t border-[#F2ECE1]">
-                  <li className="flex items-center space-x-2">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-3 border-t border-[#F2ECE1]">
+                  <li className="flex items-start gap-2.5 leading-snug">
+                    <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                     <span>Sized perfectly for Facebook, Instagram, Messenger, and TikTok.</span>
                   </li>
-                  <li className="flex items-center space-x-2">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <li className="flex items-start gap-2.5 leading-snug">
+                    <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                     <span>High-resolution exports in PNG/JPEG</span>
                   </li>
-                  <li className="flex items-center space-x-2">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <li className="flex items-start gap-2.5 leading-snug">
+                    <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                     <span>Includes 2 revision rounds per poster</span>
                   </li>
                 </ul>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <button
                   type="button"
                   onClick={() => handleSelectPackage('posters-starter')}
-                  className="flex-1 py-2.5 rounded-lg text-xs font-bold bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#EFE8DD] transition-colors cursor-pointer text-center"
+                  className="flex-1 py-3 rounded-xl text-xs sm:text-sm font-bold bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#EFE8DD] transition-colors cursor-pointer text-center"
                 >
                   Order 3-Pack (₱999)
                 </button>
                 <button
                   type="button"
                   onClick={() => handleSelectPackage('posters-campaign')}
-                  className="flex-1 py-2.5 rounded-lg text-xs font-bold bg-[#2A1E17] text-white hover:bg-[#3E2D23] transition-colors cursor-pointer text-center"
+                  className="flex-1 py-3 rounded-xl text-xs sm:text-sm font-bold bg-[#2A1E17] text-white hover:bg-[#3E2D23] transition-colors cursor-pointer text-center shadow-xs"
                 >
                   Order 8-Pack (₱2,499)
                 </button>
@@ -1192,9 +1195,9 @@ I would like to discuss kickoff and availability!`;
           </div>
 
           {/* Honest Note About Domain and Hosting */}
-          <div className="p-5 rounded-2xl bg-white border border-[#D9CEBE] text-xs text-[#6E5948] space-y-1.5 shadow-2xs">
-            <strong className="text-[#2A1E17] block text-sm">A quick note on domains and hosting:</strong>
-            <p className="leading-relaxed">
+          <div className="p-6 rounded-2xl bg-white border border-[#D9CEBE] text-[#6E5948] space-y-2 shadow-2xs">
+            <h4 className="text-sm sm:text-base font-bold text-[#2A1E17] block">A quick note on domains and hosting:</h4>
+            <p className="text-xs sm:text-sm leading-relaxed text-pretty">
               Our package prices cover the complete design, build, and setup of your website. We host and manage your website files on our fast servers so you never have to deal with code or monthly hosting fees. The only thing you pay for directly is your custom domain name (like yourbusiness.com via Namecheap or Cloudflare, usually around ₱600–₱900/year). We'll help you set it up so you own your domain name 100%, with zero lock-in.
             </p>
           </div>
@@ -1202,149 +1205,151 @@ I would like to discuss kickoff and availability!`;
       </section>
 
       {/* Interactive Project Cost Estimator & Quote Generator */}
-      <section id="estimator" className="py-14 px-4 sm:px-6 bg-[#F3EDE3]/40 border-t border-[#E8DFD3]">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="space-y-1">
+      <section id="estimator" className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F3EDE3]/40 border-t border-[#E8DFD3]">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <div className="space-y-2 max-w-2xl">
             <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#8C7A68]">
               <Calculator className="w-4 h-4 text-[#8C7A68]" />
               <span>Interactive Estimator</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#1F1611]">Customize Your Project & Get an Instant Estimate</h2>
-            <p className="text-xs sm:text-sm text-[#6E5948]">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1F1611] tracking-tight">
+              Customize Your Project & Get an Instant Estimate
+            </h2>
+            <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
               Select what your business needs to calculate your exact one-time investment and optional monthly maintenance plan.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Left Controls */}
-            <div className="md:col-span-7 space-y-5">
+            <div className="lg:col-span-7 space-y-5">
               {/* Step 1: Website */}
-              <div className="p-5 rounded-2xl bg-white border border-[#D9CEBE] space-y-3 shadow-xs">
+              <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#D9CEBE] space-y-3.5 shadow-xs">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#2A1E17] block">
                   1. Choose Website Architecture
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setCalcWebsite('starter-basic')}
-                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                    className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
                       calcWebsite === 'starter-basic'
-                        ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs'
+                        ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs ring-1 ring-[#2A1E17]/10'
                         : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                     }`}
                   >
                     <div className="flex justify-between items-center">
-                      <span className="font-bold text-xs text-[#2A1E17]">Starter: Basic</span>
-                      <span className="font-mono text-xs font-bold text-[#8C7A68]">{formatPrice(9999, 179)}</span>
+                      <span className="font-bold text-sm text-[#2A1E17]">Starter: Basic</span>
+                      <span className="font-mono text-xs font-bold text-[#8C7A68] tabular-nums">{formatPrice(9999, 179)}</span>
                     </div>
-                    <p className="text-[11px] text-[#6E5948] mt-1">Single page, static clean layout, 3–5 days.</p>
+                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">Single page, static clean layout, 3–5 days.</p>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setCalcWebsite('starter-immersive')}
-                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                    className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
                       calcWebsite === 'starter-immersive'
-                        ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs'
+                        ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs ring-1 ring-[#2A1E17]/10'
                         : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                     }`}
                   >
                     <div className="flex justify-between items-center">
-                      <span className="font-bold text-xs text-[#2A1E17] flex items-center gap-1">
-                        <Sparkles className="w-3 h-3 text-[#A39171]" />
+                      <span className="font-bold text-sm text-[#2A1E17] flex items-center gap-1">
+                        <Sparkles className="w-3.5 h-3.5 text-[#A39171]" />
                         Starter: Immersive
                       </span>
-                      <span className="font-mono text-xs font-bold text-[#8C7A68]">{formatPrice(12499, 225)}</span>
+                      <span className="font-mono text-xs font-bold text-[#8C7A68] tabular-nums">{formatPrice(12499, 225)}</span>
                     </div>
-                    <p className="text-[11px] text-[#6E5948] mt-1">Scroll motion + 2 Free Launch Posters.</p>
+                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">Scroll motion + 2 Free Launch Posters.</p>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setCalcWebsite('multipage')}
-                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                    className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
                       calcWebsite === 'multipage'
-                        ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs'
+                        ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs ring-1 ring-[#2A1E17]/10'
                         : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                     }`}
                   >
                     <div className="flex justify-between items-center">
-                      <span className="font-bold text-xs text-[#2A1E17]">Multi-Page Website</span>
-                      <span className="font-mono text-xs font-bold text-[#8C7A68]">Starts {formatPrice(17999, 320)}</span>
+                      <span className="font-bold text-sm text-[#2A1E17]">Multi-Page Website</span>
+                      <span className="font-mono text-xs font-bold text-[#8C7A68] tabular-nums">Starts {formatPrice(17999, 320)}</span>
                     </div>
-                    <p className="text-[11px] text-[#6E5948] mt-1">Home + 3 pages + 4 Free Launch Posters.</p>
+                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">Home + 3 pages + 4 Free Launch Posters.</p>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setCalcWebsite('none')}
-                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                    className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
                       calcWebsite === 'none'
-                        ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs'
+                        ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs ring-1 ring-[#2A1E17]/10'
                         : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                     }`}
                   >
                     <div className="flex justify-between items-center">
-                      <span className="font-bold text-xs text-[#2A1E17]">No Website Needed</span>
-                      <span className="font-mono text-xs text-[#7C6958]">{formatPrice(0, 0)}</span>
+                      <span className="font-bold text-sm text-[#2A1E17]">No Website Needed</span>
+                      <span className="font-mono text-xs text-[#7C6958] tabular-nums">{formatPrice(0, 0)}</span>
                     </div>
-                    <p className="text-[11px] text-[#6E5948] mt-1">I only need posters or monthly care.</p>
+                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">I only need posters or monthly care.</p>
                   </button>
                 </div>
               </div>
 
               {/* Step 2: Monthly Care */}
-              <div className="p-5 rounded-2xl bg-white border border-[#D9CEBE] space-y-3 shadow-xs">
+              <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#D9CEBE] space-y-3.5 shadow-xs">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#2A1E17] block">
                   2. Monthly Maintenance & Content Care (Optional)
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <button
                     type="button"
                     onClick={() => setCalcMaintenance('none')}
-                    className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
-                      calcMaintenance === 'none' ? 'border-[#2A1E17] bg-[#FBF9F5]' : 'border-[#E8DFD3]'
+                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                      calcMaintenance === 'none' ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                     }`}
                   >
-                    <span className="font-bold text-xs text-[#2A1E17] block">No Monthly Care</span>
-                    <span className="text-[10px] text-[#7C6958]">One-time delivery only</span>
+                    <span className="font-bold text-sm text-[#2A1E17] block">No Monthly Care</span>
+                    <span className="text-xs text-[#7C6958] mt-1 block">One-time delivery only</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setCalcMaintenance('guardian')}
-                    className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
-                      calcMaintenance === 'guardian' ? 'border-[#2A1E17] bg-[#FBF9F5]' : 'border-[#E8DFD3]'
+                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                      calcMaintenance === 'guardian' ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                     }`}
                   >
-                    <span className="font-bold text-xs text-[#2A1E17] block">Site Guardian</span>
-                    <span className="font-mono text-xs font-bold text-[#8C7A68] block">Starts {formatPrice(999, 18)}/mo</span>
-                    <span className="text-[10px] text-[#7C6958]">Speed, uptime, 3 updates*</span>
+                    <span className="font-bold text-sm text-[#2A1E17] block">Site Guardian</span>
+                    <span className="font-mono text-xs font-bold text-[#8C7A68] block mt-0.5 tabular-nums">Starts {formatPrice(999, 18)}/mo</span>
+                    <span className="text-xs text-[#7C6958] mt-1 block">Speed, uptime, 3 updates*</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setCalcMaintenance('growth')}
-                    className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
-                      calcMaintenance === 'growth' ? 'border-[#2A1E17] bg-[#FBF9F5]' : 'border-[#E8DFD3]'
+                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                      calcMaintenance === 'growth' ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                     }`}
                   >
-                    <span className="font-bold text-xs text-[#2A1E17] block">Growth Partner</span>
-                    <span className="font-mono text-xs font-bold text-[#8C7A68] block">Starts {formatPrice(1999, 36)}/mo</span>
-                    <span className="text-[10px] text-[#A39171] font-semibold">Web care + 4 Posters/mo*</span>
+                    <span className="font-bold text-sm text-[#2A1E17] block">Growth Partner</span>
+                    <span className="font-mono text-xs font-bold text-[#8C7A68] block mt-0.5 tabular-nums">Starts {formatPrice(1999, 36)}/mo</span>
+                    <span className="text-xs text-[#A39171] font-semibold mt-1 block">Web care + 4 Posters/mo*</span>
                   </button>
                 </div>
-                <p className="text-[10px] text-[#8C7A68] italic">
+                <p className="text-xs text-[#8C7A68] italic">
                   *Monthly care rates are starting estimates; subject to change depending on client requests.
                 </p>
               </div>
 
               {/* Step 3: Social Media Posters */}
-              <div className="p-5 rounded-2xl bg-white border border-[#D9CEBE] space-y-3 shadow-xs">
+              <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#D9CEBE] space-y-3.5 shadow-xs">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#2A1E17] block">
                   3. Extra Social Media Posters / Flyers
                 </label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   {[
                     { count: 0, label: 'None', price: 0 },
                     { count: 3, label: '3 Posters', price: 999 },
@@ -1355,12 +1360,12 @@ I would like to discuss kickoff and availability!`;
                       key={item.count}
                       type="button"
                       onClick={() => setCalcPosters(item.count)}
-                      className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
-                        calcPosters === item.count ? 'border-[#2A1E17] bg-[#FBF9F5]' : 'border-[#E8DFD3]'
+                      className={`p-3 rounded-xl border text-center transition-all cursor-pointer ${
+                        calcPosters === item.count ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                       }`}
                     >
-                      <span className="font-bold text-xs text-[#2A1E17] block">{item.label}</span>
-                      <span className="font-mono text-[11px] text-[#8C7A68] block mt-0.5">
+                      <span className="font-bold text-xs sm:text-sm text-[#2A1E17] block">{item.label}</span>
+                      <span className="font-mono text-xs text-[#8C7A68] block mt-0.5 tabular-nums">
                         {item.price === 0 ? '₱0' : `+${formatPrice(item.price, Math.round(item.price / 56))}`}
                       </span>
                     </button>
@@ -1369,15 +1374,15 @@ I would like to discuss kickoff and availability!`;
               </div>
 
               {/* Step 4: Rush option */}
-              <div className="p-4 rounded-xl bg-white border border-[#D9CEBE] flex items-center justify-between shadow-xs">
-                <div>
-                  <div className="text-xs font-bold text-[#2A1E17]">Expedited Rush Delivery (48–72 Hours)</div>
-                  <div className="text-[11px] text-[#7C6958]">Priority queue for upcoming campaign launches.</div>
+              <div className="p-4 sm:p-5 rounded-xl bg-white border border-[#D9CEBE] flex items-center justify-between shadow-xs">
+                <div className="space-y-0.5">
+                  <div className="text-xs sm:text-sm font-bold text-[#2A1E17]">Expedited Rush Delivery (48–72 Hours)</div>
+                  <div className="text-xs text-[#7C6958]">Priority queue for upcoming campaign launches.</div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setCalcRush(!calcRush)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider cursor-pointer ${
+                  className={`px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider cursor-pointer transition-colors ${
                     calcRush ? 'bg-[#2A1E17] text-[#FBF9F5]' : 'bg-[#F3EDE3] text-[#2A1E17] hover:bg-[#E8DFD3]'
                   }`}
                 >
@@ -1387,15 +1392,15 @@ I would like to discuss kickoff and availability!`;
             </div>
 
             {/* Right Summary Card */}
-            <div className="md:col-span-5 sticky top-20 rounded-2xl bg-white border-2 border-[#2A1E17] p-6 space-y-4 shadow-sm">
+            <div className="lg:col-span-5 sticky top-24 rounded-2xl bg-white border-2 border-[#2A1E17] p-6 sm:p-7 space-y-5 shadow-sm">
               <span className="text-xs font-bold text-[#A39171] uppercase tracking-wider block">
                 Itemized Estimate Summary
               </span>
 
-              <div className="space-y-3 py-3 border-y border-[#F2ECE1] text-xs">
+              <div className="space-y-3 py-3 border-y border-[#F2ECE1] text-xs sm:text-sm">
                 <div className="flex justify-between items-center text-[#5C4A3C]">
                   <span>Website Base:</span>
-                  <span className="font-mono font-bold text-[#2A1E17]">
+                  <span className="font-mono font-bold text-[#2A1E17] tabular-nums">
                     {formatPrice(websitePrices[calcWebsite], Math.round(websitePrices[calcWebsite] / 56))}
                   </span>
                 </div>
@@ -1403,7 +1408,7 @@ I would like to discuss kickoff and availability!`;
                 {calcPosters > 0 && (
                   <div className="flex justify-between items-center text-[#5C4A3C]">
                     <span>{calcPosters} Extra Social Posters:</span>
-                    <span className="font-mono font-bold text-[#2A1E17]">
+                    <span className="font-mono font-bold text-[#2A1E17] tabular-nums">
                       {formatPrice(posterPrices[calcPosters], Math.round(posterPrices[calcPosters] / 56))}
                     </span>
                   </div>
@@ -1412,57 +1417,57 @@ I would like to discuss kickoff and availability!`;
                 {calcRush && (
                   <div className="flex justify-between items-center text-[#5C4A3C]">
                     <span>Rush Expedited Service:</span>
-                    <span className="font-mono font-bold text-[#2A1E17]">
+                    <span className="font-mono font-bold text-[#2A1E17] tabular-nums">
                       {formatPrice(rushFee, 36)}
                     </span>
                   </div>
                 )}
 
-                <div className="pt-2 border-t border-[#F2ECE1] flex justify-between items-baseline">
+                <div className="pt-3 border-t border-[#F2ECE1] flex justify-between items-baseline">
                   <span className="font-bold text-[#2A1E17]">One-Time Total:</span>
-                  <span className="text-2xl font-black text-[#2A1E17] font-mono tabular-nums">
+                  <span className="text-2xl sm:text-3xl font-black text-[#2A1E17] font-mono tabular-nums">
                     {formatPrice(totalOneTimePHP, totalOneTimeUSD)}
                   </span>
                 </div>
 
                 {monthlyPHP > 0 && (
-                  <div className="p-3 rounded-lg bg-[#FBF9F5] border border-[#E8DFD3] flex justify-between items-center">
-                    <div>
-                      <span className="font-bold text-[#2A1E17] block">Monthly Care Plan:</span>
-                      <span className="text-[11px] text-[#7C6958]">
+                  <div className="p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E8DFD3] flex justify-between items-center mt-2">
+                    <div className="space-y-0.5">
+                      <span className="font-bold text-xs sm:text-sm text-[#2A1E17] block">Monthly Care Plan:</span>
+                      <span className="text-xs text-[#7C6958]">
                         {calcMaintenance === 'guardian' ? 'Site Guardian' : 'Growth (Site + 4 Posters/mo)'}
                       </span>
                     </div>
-                    <span className="font-mono font-bold text-[#2A1E17] text-base">
+                    <span className="font-mono font-bold text-[#2A1E17] text-base sm:text-lg tabular-nums">
                       {formatPrice(monthlyPHP, monthlyUSD)}/mo
                     </span>
                   </div>
                 )}
               </div>
 
-              <div className="text-[11px] text-[#7C6958] space-y-1">
+              <div className="text-xs text-[#7C6958] space-y-1.5 leading-relaxed">
                 <div>• 50% Kickoff Deposit (₱{Math.round(totalOneTimePHP / 2).toLocaleString()}) to begin</div>
                 <div>• 50% Remaining only upon your approval & live domain launch</div>
                 <div>• Accepted: GCash, Maya, BDO, BPI, UnionBank, PayPal</div>
               </div>
 
-              <div className="pt-2 space-y-2">
+              <div className="pt-2 space-y-2.5">
                 <a
                   href="https://www.facebook.com/p.kxts/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-2.5 px-3 rounded-lg bg-[#0084FF] hover:bg-[#0073e6] text-white font-semibold text-xs flex items-center justify-center space-x-2 transition-colors cursor-pointer"
+                  className="w-full py-3 px-4 rounded-xl bg-[#0084FF] hover:bg-[#0073e6] text-white font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-colors cursor-pointer shadow-xs"
                 >
-                  <MessageSquare className="w-3.5 h-3.5" />
+                  <MessageSquare className="w-4 h-4" />
                   <span>Send via Facebook Messenger</span>
                 </a>
 
                 <button
                   type="button"
                   onClick={handleCopyQuote}
-                  className="w-full py-2.5 px-3 rounded-lg bg-[#F3EDE3] hover:bg-[#E8DFD3] text-[#2A1E17] font-bold text-xs flex items-center justify-center space-x-2 transition-colors cursor-pointer"
+                  className="w-full py-3 px-4 rounded-xl bg-[#F3EDE3] hover:bg-[#E8DFD3] text-[#2A1E17] font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-colors cursor-pointer"
                 >
-                  {copiedEstimate ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copiedEstimate ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
                   <span>{copiedEstimate ? 'Copied to Clipboard!' : 'Copy Quote for Messenger / Notes'}</span>
                 </button>
 
@@ -1472,9 +1477,9 @@ I would like to discuss kickoff and availability!`;
                     setFormData((prev) => ({ ...prev, notes: quoteSummaryText }));
                     scrollTo('contact');
                   }}
-                  className="w-full py-2.5 px-3 rounded-lg bg-[#2A1E17] hover:bg-[#3E2D23] text-white font-bold text-xs flex items-center justify-center space-x-2 transition-colors cursor-pointer"
+                  className="w-full py-3 px-4 rounded-xl bg-[#2A1E17] hover:bg-[#3E2D23] text-white font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-colors cursor-pointer shadow-xs"
                 >
-                  <Send className="w-3.5 h-3.5" />
+                  <Send className="w-4 h-4" />
                   <span>Use This Estimate in Form Below</span>
                 </button>
               </div>
@@ -1484,12 +1489,12 @@ I would like to discuss kickoff and availability!`;
       </section>
 
       {/* Sample Work Section - Client Proof (Unique & Distinct) */}
-      <section id="work" className="py-14 px-4 sm:px-6">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="space-y-1">
-            <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68]">Client Proof</span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#1F1611]">Featured Real Projects</h2>
-            <p className="text-xs sm:text-sm text-[#6E5948]">
+      <section id="work" className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <div className="space-y-2 max-w-2xl">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68] block">Client Proof</span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1F1611] tracking-tight">Featured Real Projects</h2>
+            <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
               Here is an example of what we build for local Philippine coaches, academies, and business brands.
             </p>
           </div>
@@ -1497,19 +1502,19 @@ I would like to discuss kickoff and availability!`;
           {/* Project 1: Ongoing Project Showcase */}
           <div className="rounded-2xl bg-white border border-[#D9CEBE] overflow-hidden shadow-sm">
             {/* Window title bar */}
-            <div className="px-4 sm:px-6 py-3 bg-[#F6F2EB] border-b border-[#E8DFD3] flex items-center justify-between">
+            <div className="px-4 sm:px-6 py-3.5 bg-[#F6F2EB] border-b border-[#E8DFD3] flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <div className="flex space-x-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#E57373]/80"></span>
                   <span className="w-2.5 h-2.5 rounded-full bg-[#FFB74D]/80"></span>
                   <span className="w-2.5 h-2.5 rounded-full bg-[#81C784]/80"></span>
                 </div>
-                <span className="text-xs font-semibold text-[#5C4A3C] ml-2">
+                <span className="text-xs sm:text-sm font-semibold text-[#5C4A3C] ml-2">
                   Ongoing Project — Merilles Chess Academy
                 </span>
               </div>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#2A1E17] text-[#FBF9F5]">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#2A1E17] text-[#FBF9F5]">
+                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
                 In Development
               </span>
             </div>
@@ -1524,22 +1529,21 @@ I would like to discuss kickoff and availability!`;
               />
             </div>
           </div>
-
         </div>
       </section>
 
       {/* Frequently Asked Questions */}
-      <section id="faq" className="py-14 px-4 sm:px-6 bg-[#F3EDE3]/40 border-t border-[#E8DFD3]">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="space-y-1 text-center">
-            <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68]">Clear Answers</span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#1F1611]">Frequently Asked Questions</h2>
-            <p className="text-xs sm:text-sm text-[#6E5948]">
+      <section id="faq" className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F3EDE3]/40 border-t border-[#E8DFD3]">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <div className="space-y-2 max-w-2xl">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68] block">Clear Answers</span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1F1611] tracking-tight">Frequently Asked Questions</h2>
+            <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
               Everything you need to know about how we work, deliver, and support your business.
             </p>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-3.5 max-w-4xl">
             {faqs.map((faq, idx) => {
               const isOpen = openFaq === idx;
               return (
@@ -1547,14 +1551,14 @@ I would like to discuss kickoff and availability!`;
                   <button
                     type="button"
                     onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-[#FBF9F5]"
+                    className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-[#FBF9F5] transition-colors"
                   >
-                    <span className="font-bold text-xs sm:text-sm text-[#2A1E17]">{faq.q}</span>
-                    <ChevronDown className={`w-4 h-4 text-[#2A1E17] shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                    <span className="font-bold text-sm sm:text-base text-[#2A1E17]">{faq.q}</span>
+                    <ChevronDown className={`w-4 h-4 text-[#2A1E17] shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
                   </button>
 
                   {isOpen && (
-                    <div className="px-4 sm:px-5 pb-5 pt-1 text-xs text-[#6E5948] leading-relaxed border-t border-[#F2ECE1]">
+                    <div className="px-4 sm:px-5 pb-5 pt-3 text-xs sm:text-sm text-[#5C4A3C] leading-relaxed text-pretty border-t border-[#F2ECE1]">
                       {faq.a}
                     </div>
                   )}
@@ -1566,48 +1570,48 @@ I would like to discuss kickoff and availability!`;
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-14 px-4 sm:px-6 bg-[#2A1E17] text-[#FBF9F5]">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="space-y-1 text-center sm:text-left">
-            <span className="text-xs uppercase font-bold tracking-wider text-[#D8C3A5]">Get In Touch</span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">Let's Talk About Your Project</h2>
-            <p className="text-xs sm:text-sm text-[#D8C3A5]/80">
+      <section id="contact" className="py-16 px-4 sm:px-6 lg:px-8 bg-[#2A1E17] text-[#FBF9F5]">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <div className="space-y-2 max-w-2xl">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#D8C3A5] block">Get In Touch</span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">Let's Talk About Your Project</h2>
+            <p className="text-sm sm:text-base text-[#D8C3A5]/80 leading-relaxed text-pretty">
               Feel free to message me on Facebook Messenger or send an email inquiry below.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 bg-[#1F1611] p-6 sm:p-8 rounded-2xl border border-[#483323]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-[#1F1611] p-6 sm:p-8 rounded-2xl border border-[#483323]">
             {/* Contact links */}
-            <div className="md:col-span-2 space-y-5">
-              <div>
-                <h4 className="font-bold text-white text-base">The KPB Visuals</h4>
-                <p className="text-xs text-[#baa89a]">Websites & Social Media Graphics</p>
+            <div className="lg:col-span-5 space-y-6">
+              <div className="space-y-1">
+                <h4 className="font-bold text-white text-lg">The KPB Visuals</h4>
+                <p className="text-xs sm:text-sm text-[#baa89a]">Websites & Social Media Graphics</p>
               </div>
 
-              <div className="space-y-3 text-xs">
-                <div>
-                  <span className="text-[#baa89a] block text-[11px]">Facebook Messenger:</span>
+              <div className="space-y-4 text-xs sm:text-sm">
+                <div className="space-y-1">
+                  <span className="text-[#baa89a] block text-xs font-semibold uppercase tracking-wider">Facebook Messenger:</span>
                   <a 
                     href="https://www.facebook.com/p.kxts/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="text-amber-300 hover:underline font-medium inline-flex items-center space-x-1 mt-0.5"
+                    className="text-amber-300 hover:underline font-medium inline-flex items-center space-x-1"
                   >
                     <span>facebook.com/p.kxts</span>
-                    <ExternalLink className="w-3 h-3" />
+                    <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </div>
 
-                <div>
-                  <span className="text-[#baa89a] block text-[11px]">Email:</span>
-                  <a href="mailto:thekpbvisuals@gmail.com" className="text-white hover:underline font-medium">
+                <div className="space-y-1">
+                  <span className="text-[#baa89a] block text-xs font-semibold uppercase tracking-wider">Email:</span>
+                  <a href="mailto:thekpbvisuals@gmail.com" className="text-white hover:underline font-medium block">
                     thekpbvisuals@gmail.com
                   </a>
                 </div>
 
-                <div>
-                  <span className="text-[#baa89a] block text-[11px]">Turnaround:</span>
-                  <span className="text-white">3 to 10 days depending on package</span>
+                <div className="space-y-1">
+                  <span className="text-[#baa89a] block text-xs font-semibold uppercase tracking-wider">Turnaround:</span>
+                  <span className="text-white block">3 to 10 days depending on package</span>
                 </div>
               </div>
 
@@ -1615,87 +1619,87 @@ I would like to discuss kickoff and availability!`;
                 href="https://www.facebook.com/p.kxts/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="w-full py-2.5 px-3 rounded-lg bg-[#0084FF] hover:bg-[#0073e6] text-white font-semibold text-xs flex items-center justify-center space-x-2 transition-colors cursor-pointer"
+                className="w-full py-3 px-4 rounded-xl bg-[#0084FF] hover:bg-[#0073e6] text-white font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-colors cursor-pointer shadow-xs"
               >
-                <MessageSquare className="w-3.5 h-3.5" />
+                <MessageSquare className="w-4 h-4" />
                 <span>Message Me on Facebook</span>
               </a>
             </div>
 
             {/* Simple Form */}
-            <div className="md:col-span-3">
+            <div className="lg:col-span-7">
               {formSubmitted ? (
-                <div className="h-full flex flex-col items-center justify-center text-center p-6 bg-[#2A1E17] rounded-xl border border-emerald-500/30 space-y-2">
-                  <CheckCircle2 className="w-8 h-8 text-emerald-400" />
-                  <h4 className="font-bold text-white text-sm">Message Sent!</h4>
-                  <p className="text-xs text-[#d8c3a5]">
+                <div className="h-full flex flex-col items-center justify-center text-center p-8 bg-[#2A1E17] rounded-xl border border-emerald-500/30 space-y-3">
+                  <CheckCircle2 className="w-10 h-10 text-emerald-400" />
+                  <h4 className="font-bold text-white text-base">Message Sent!</h4>
+                  <p className="text-xs sm:text-sm text-[#d8c3a5] max-w-md">
                     Thanks, <strong>{formData.name}</strong>. I received your note regarding <strong>{formData.service}</strong> and will get back to you soon. You can also message me anytime on Facebook!
                   </p>
                   <button
                     type="button"
                     onClick={() => setFormSubmitted(false)}
-                    className="mt-3 px-4 py-2 bg-[#FBF9F5] text-[#2A1E17] text-xs font-bold rounded-lg cursor-pointer"
+                    className="mt-4 px-5 py-2.5 bg-[#FBF9F5] text-[#2A1E17] text-xs font-bold rounded-lg cursor-pointer hover:bg-white transition-colors"
                   >
                     Submit Another Message
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-3 text-xs">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="space-y-1">
-                      <label className="text-[11px] text-[#d8c3a5]">Your Name *</label>
+                <form onSubmit={handleSubmit} className="space-y-4 text-xs sm:text-sm">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-[#d8c3a5] block">Your Name *</label>
                       <input 
                         type="text" 
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
                         placeholder="Your name"
-                        className="w-full px-3 py-2 rounded-lg bg-[#2A1E17] border border-[#483323] text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1E17] border border-[#483323] text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 text-sm"
                       />
                     </div>
-                    <div className="space-y-1">
-                      <label className="text-[11px] text-[#d8c3a5]">Business / Brand Name</label>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-[#d8c3a5] block">Business / Brand Name</label>
                       <input 
                         type="text" 
                         value={formData.businessName}
                         onChange={(e) => setFormData({...formData, businessName: e.target.value})}
                         placeholder="What is your business?"
-                        className="w-full px-3 py-2 rounded-lg bg-[#2A1E17] border border-[#483323] text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1E17] border border-[#483323] text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 text-sm"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="space-y-1">
-                      <label className="text-[11px] text-[#d8c3a5]">Email *</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-[#d8c3a5] block">Email *</label>
                       <input 
                         type="email" 
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
                         placeholder="your@email.com"
-                        className="w-full px-3 py-2 rounded-lg bg-[#2A1E17] border border-[#483323] text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1E17] border border-[#483323] text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 text-sm"
                       />
                     </div>
-                    <div className="space-y-1">
-                      <label className="text-[11px] text-[#d8c3a5]">Mobile Number</label>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-[#d8c3a5] block">Mobile Number</label>
                       <input 
                         type="tel" 
                         value={formData.phone}
                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         placeholder="09XX-XXX-XXXX"
-                        className="w-full px-3 py-2 rounded-lg bg-[#2A1E17] border border-[#483323] text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1E17] border border-[#483323] text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 text-sm"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="space-y-1">
-                      <label className="text-[11px] text-[#d8c3a5]">Select Package</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-[#d8c3a5] block">Select Package</label>
                       <select 
                         value={formData.service}
                         onChange={(e) => setFormData({...formData, service: e.target.value})}
-                        className="w-full px-3 py-2 rounded-lg bg-[#2A1E17] border border-[#483323] text-white focus:outline-none focus:border-amber-400 cursor-pointer"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1E17] border border-[#483323] text-white focus:outline-none focus:border-amber-400 cursor-pointer text-sm"
                       >
                         <option value="starter-basic">Starter: Basic Landing Page (₱9,999)</option>
                         <option value="starter-immersive">Starter: Immersive Experience (₱12,499)</option>
@@ -1707,12 +1711,12 @@ I would like to discuss kickoff and availability!`;
                       </select>
                     </div>
 
-                    <div className="space-y-1">
-                      <label className="text-[11px] text-[#d8c3a5]">Launch Timeline</label>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-[#d8c3a5] block">Launch Timeline</label>
                       <select 
                         value={formData.timeline}
                         onChange={(e) => setFormData({...formData, timeline: e.target.value})}
-                        className="w-full px-3 py-2 rounded-lg bg-[#2A1E17] border border-[#483323] text-white focus:outline-none focus:border-amber-400 cursor-pointer"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1E17] border border-[#483323] text-white focus:outline-none focus:border-amber-400 cursor-pointer text-sm"
                       >
                         <option value="urgent">Rush (48–72 Hours)</option>
                         <option value="standard">Standard (3–10 Days)</option>
@@ -1721,22 +1725,22 @@ I would like to discuss kickoff and availability!`;
                     </div>
                   </div>
 
-                  <div className="space-y-1">
-                    <label className="text-[11px] text-[#d8c3a5]">Tell me a little about your project</label>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[#d8c3a5] block">Tell me a little about your project</label>
                     <textarea 
                       rows={3}
                       value={formData.notes}
                       onChange={(e) => setFormData({...formData, notes: e.target.value})}
                       placeholder="What kind of website or graphics are you looking for?"
-                      className="w-full px-3 py-2 rounded-lg bg-[#2A1E17] border border-[#483323] text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 resize-none"
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1E17] border border-[#483323] text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 resize-none text-sm"
                     />
                   </div>
 
                   <button 
                     type="submit"
-                    className="w-full py-2.5 rounded-lg font-bold text-xs bg-amber-400 hover:bg-amber-300 text-stone-950 transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
+                    className="w-full py-3 rounded-xl font-bold text-xs sm:text-sm bg-amber-400 hover:bg-amber-300 text-stone-950 transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
                   >
-                    <Send className="w-3.5 h-3.5" />
+                    <Send className="w-4 h-4" />
                     <span>Send Message</span>
                   </button>
                 </form>
@@ -1747,8 +1751,8 @@ I would like to discuss kickoff and availability!`;
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#E8DFD3] py-8 px-4 sm:px-6 text-xs text-[#7C6958]">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <footer className="border-t border-[#E8DFD3] py-8 px-4 sm:px-6 lg:px-8 text-xs text-[#7C6958]">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2.5">
             <div className="w-9 h-9 rounded-lg overflow-hidden border border-[#D9CEBE] bg-[#FBF9F5] p-0.5 shadow-xs">
               <img 
@@ -1757,11 +1761,11 @@ I would like to discuss kickoff and availability!`;
                 className="w-full h-full object-cover rounded-md"
               />
             </div>
-            <span className="font-extrabold text-[#2A1E17]">THE KPB VISUALS</span>
+            <span className="font-extrabold text-[#2A1E17] tracking-wider">THE KPB VISUALS</span>
           </div>
 
-          <p className="text-[11px] text-[#8C7A68]">
-            Websites & Social Media Graphics • <a href="https://www.facebook.com/p.kxts/" target="_blank" rel="noopener noreferrer" className="hover:underline text-[#2A1E17]">facebook.com/p.kxts</a>
+          <p className="text-xs text-[#8C7A68]">
+            Websites & Social Media Graphics · <a href="https://www.facebook.com/p.kxts/" target="_blank" rel="noopener noreferrer" className="hover:underline text-[#2A1E17] font-medium">facebook.com/p.kxts</a>
           </p>
         </div>
       </footer>
