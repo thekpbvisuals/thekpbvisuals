@@ -17,7 +17,13 @@ import {
   Palette,
   Calculator,
   Copy,
-  ChevronDown
+  ChevronDown,
+  RefreshCw,
+  Calendar,
+  ShoppingBag,
+  Flag,
+  ShieldCheck,
+  FileText
 } from 'lucide-react';
 
 export default function App() {
@@ -35,7 +41,7 @@ export default function App() {
   // Subtle parallax upward drift for headline text
   const headlineY = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
-  // Initialize Lenis buttery-smooth inertial scrolling
+  // Initialize Lenis smooth inertial scrolling
   useEffect(() => {
     const lenis = new Lenis({
       lerp: 0.08,
@@ -57,9 +63,6 @@ export default function App() {
     };
   }, []);
 
-  // Currency state (PHP default, USD supported)
-  const [currency, setCurrency] = useState<'PHP' | 'USD'>('PHP');
-  
   // Active website tier for sticky split-screen showcase
   const [activeWebsiteTier, setActiveWebsiteTier] = useState<'basic' | 'immersive' | 'multipage'>('basic');
 
@@ -86,18 +89,39 @@ export default function App() {
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  // Starter tier toggle in pricing card (basic vs immersive)
-  const [starterTier, setStarterTier] = useState<'basic' | 'immersive'>('immersive');
 
-  // Maintenance plan selection in pricing
-  const [activeMaintenance, setActiveMaintenance] = useState<'guardian' | 'growth'>('growth');
-
-  // Estimator calculator state
-  const [calcWebsite, setCalcWebsite] = useState<'none' | 'starter-basic' | 'starter-immersive' | 'multipage'>('starter-immersive');
-  const [calcMaintenance, setCalcMaintenance] = useState<'none' | 'guardian' | 'growth'>('growth');
-  const [calcPosters, setCalcPosters] = useState<number>(0);
-  const [calcRush, setCalcRush] = useState<boolean>(false);
+  // Estimator / Scope Builder state
+  const [scopeWebsite, setScopeWebsite] = useState<'starter-basic' | 'starter-immersive' | 'multipage' | 'redesign' | 'campaign' | 'none'>('starter-immersive');
+  const [scopeAddons, setScopeAddons] = useState<{
+    booking: boolean;
+    catalog: boolean;
+    brandAssets: boolean;
+    posters3: boolean;
+    posters8: boolean;
+    maintenance: boolean;
+  }>({
+    booking: false,
+    catalog: false,
+    brandAssets: true,
+    posters3: false,
+    posters8: false,
+    maintenance: false,
+  });
+  const [scopeRush, setScopeRush] = useState<boolean>(false);
   const [copiedEstimate, setCopiedEstimate] = useState<boolean>(false);
+
+  // Toggle addon helper
+  const toggleAddon = (key: keyof typeof scopeAddons) => {
+    setScopeAddons((prev) => {
+      if (key === 'posters3' && !prev.posters3) {
+        return { ...prev, posters3: true, posters8: false };
+      }
+      if (key === 'posters8' && !prev.posters8) {
+        return { ...prev, posters8: true, posters3: false };
+      }
+      return { ...prev, [key]: !prev[key] };
+    });
+  };
 
   // FAQ accordion state
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -114,71 +138,34 @@ export default function App() {
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // Price formatting helper
-  const formatPrice = (php: number, usd: number) => {
-    if (currency === 'USD') {
-      return `$${usd.toLocaleString()}`;
-    }
-    return `₱${php.toLocaleString()}`;
-  };
-
-  // Calculator price tables (Updated: Basic ₱9,999, Immersive ₱12,499, Multi-Page starting ₱17,999)
-  const websitePrices = {
-    'none': 0,
-    'starter-basic': 9999,
-    'starter-immersive': 12499,
-    'multipage': 17999
-  };
-
-  const maintenancePrices = {
-    'none': 0,
-    'guardian': 999,
-    'growth': 1999
-  };
-
-  const posterPrices: Record<number, number> = {
-    0: 0,
-    3: 999,
-    6: 1899,
-    8: 2499
-  };
-
-  const rushFee = 2000;
-
-  const totalOneTimePHP = useMemo(() => {
-    let sum = websitePrices[calcWebsite];
-    sum += posterPrices[calcPosters] || 0;
-    if (calcRush) sum += rushFee;
-    return sum;
-  }, [calcWebsite, calcPosters, calcRush]);
-
-  const monthlyPHP = maintenancePrices[calcMaintenance];
-
-  const totalOneTimeUSD = Math.round(totalOneTimePHP / 56);
-  const monthlyUSD = Math.round(monthlyPHP / 56);
-
+  // Formatted Quotation Request Message
   const quoteSummaryText = useMemo(() => {
-    const webName = 
-      calcWebsite === 'starter-basic' ? 'Starter Basic Landing Page (₱9,999)' :
-      calcWebsite === 'starter-immersive' ? 'Starter Immersive Landing Page (₱12,499)' :
-      calcWebsite === 'multipage' ? 'Multi-Page Website (Starting at ₱17,999)' : 'No Website (Posters / Care only)';
+    const webNames: Record<string, string> = {
+      'starter-basic': 'Single-Page Basic Website',
+      'starter-immersive': 'Single-Page Immersive Website (Scroll Effects + 2 Launch Posters)',
+      'multipage': 'Multi-Page Website (Up to 4 Pages + 4 Launch Posters)',
+      'redesign': 'Website Redesign & Modernization (Site Makeover)',
+      'campaign': 'Campaign & Event Landing Page',
+      'none': 'No Website (Design & Media Assets Only)'
+    };
 
-    const maintName = 
-      calcMaintenance === 'guardian' ? 'Site Guardian (₱999/mo - subject to client requests)' :
-      calcMaintenance === 'growth' ? 'Growth Partner + 4 Social Posters (₱1,999/mo - subject to client requests)' : 'None';
+    const addonsList: string[] = [];
+    if (scopeAddons.booking) addonsList.push('Booking & Schedule System Integration');
+    if (scopeAddons.catalog) addonsList.push('Digital Product Catalog / QR Menu');
+    if (scopeAddons.brandAssets) addonsList.push('Brand & Social Launch Assets (Covers, Colors, QR Payment Cards)');
+    if (scopeAddons.posters3) addonsList.push('Social Media Starter 3-Pack Posters');
+    if (scopeAddons.posters8) addonsList.push('Social Media Campaign 8-Pack Posters');
+    if (scopeAddons.maintenance) addonsList.push('Monthly Site Care & Content Updates');
 
-    const posterName = calcPosters > 0 ? `${calcPosters} Extra Social Posters (+₱${posterPrices[calcPosters].toLocaleString()})` : 'None';
-    const rushName = calcRush ? 'Yes (48–72h Rush +₱2,000)' : 'Standard';
+    const timelineText = scopeRush ? 'Rush Priority (48–72 Hours)' : 'Standard (3–10 Days)';
 
-    return `Hi The KPB Visuals! Here is my estimated project plan:
-• Website: ${webName}
-• Monthly Care: ${maintName}
-• Extra Social Posters: ${posterName}
-• Delivery Timeline: ${rushName}
-• Estimated Total: ₱${totalOneTimePHP.toLocaleString()} one-time ${monthlyPHP > 0 ? `+ ₱${monthlyPHP.toLocaleString()}/mo` : ''}
+    return `Hi The KPB Visuals! I would like to request a quotation for my project:
+• Website Type: ${webNames[scopeWebsite] || 'Custom'}
+• Features & Add-ons: ${addonsList.length > 0 ? addonsList.join(', ') : 'Standard package features'}
+• Preferred Timeline: ${timelineText}
 
-I would like to discuss kickoff and availability!`;
-  }, [calcWebsite, calcMaintenance, calcPosters, calcRush, totalOneTimePHP, monthlyPHP]);
+I would like to explain what my business does and discuss your quotation and availability!`;
+  }, [scopeWebsite, scopeAddons, scopeRush]);
 
   const handleCopyQuote = () => {
     navigator.clipboard.writeText(quoteSummaryText);
@@ -222,28 +209,32 @@ I would like to discuss kickoff and availability!`;
 
   const faqs = [
     {
-      q: 'Do I need any coding knowledge to work with you?',
-      a: 'None at all! We are not big corporate developers who complicate things. We create simple, clean, and functioning websites and handle all technical setup, domain connecting, and hosting configurations for you.'
+      q: 'How do I get a quotation for my website?',
+      a: 'Simply send us a message on Facebook Messenger or through our contact form. Tell us a little about your business and what kind of website or features you need. We will review your requirements and send you a clear, honest quotation with a realistic timeframe.'
     },
     {
-      q: 'What is the difference between the Basic and Immersive Starter?',
-      a: 'Both packages are complete single-page websites containing your services, about details, and contact inquiry form. The Basic tier (₱9,999) has a clean, static, fast-loading layout ready in 3–5 days. The Immersive tier (₱12,499) includes smooth scroll effects, parallax depth, tailored studio aesthetics, and includes 2 Free custom-designed social media posters ready in 5–7 days.'
+      q: 'How many revisions do we get while editing our website?',
+      a: 'We offer 2 to 3 rounds of design revisions during the staging review phase so you can test everything and make sure it looks right before launch. We are flexible and easy to talk to—revisions are negotiable depending on what your project requires.'
     },
     {
-      q: 'How does pricing work for the Multi-Page Website?',
-      a: 'Multi-page websites start at ₱17,999 for up to 4 custom pages (Home, About/Story, Services/Catalog/Schedules, and Contact/Booking). The price adjusts depending on any additional requested pages or custom features. It includes 4 Free custom-designed launch social media posters, SEO setup, and mobile responsiveness in 7–10 days.'
+      q: 'Do you create logos?',
+      a: 'We do not offer logo creation. However, we do provide complete Brand & Social Launch Assets—including matching color palettes, typography pairings, Facebook and Instagram cover banners, and custom digital GCash or Maya QR payment cards to give your brand a cohesive, professional appearance.'
     },
     {
-      q: 'How does Monthly Maintenance & Content Care work?',
-      a: 'Site Guardian starts at ₱999/mo (speed audits, uptime monitoring, and up to 3 text/photo updates every month). Digital Growth Partner starts at ₱1,999/mo and includes full website maintenance PLUS 4 fresh, custom-designed promotional posters/flyers every month ready to post on your social pages! Rates are subject to change depending on specific client requests and ongoing workload.'
+      q: 'What is the difference between Single-Page and Multi-Page websites?',
+      a: 'A Single-Page website contains your intro, services, pricing, and contact buttons in one streamlined, fast-scrolling page. A Multi-Page website has dedicated individual pages (such as Home, About/Story, Services or Schedules, and Contact/Booking), which is ideal for academies, clinics, or businesses with deeper catalogs.'
+    },
+    {
+      q: 'Can you redesign or update my existing website?',
+      a: 'Yes! If you already have an existing website that feels slow, outdated, or hard to navigate on mobile phones, we can redesign and rebuild it with clean styling, quick load speeds, and straightforward messaging.'
     },
     {
       q: 'What are your payment terms and accepted methods?',
-      a: 'We operate on a transparent 50/50 milestone: 50% downpayment upon kickoff to start the design, and the remaining 50% only when your website is completed, approved on a private staging link, and ready to go live. We accept GCash, Maya, BDO, BPI, UnionBank, and PayPal.'
+      a: 'We follow a simple 50/50 milestone: a 50% kickoff downpayment to start the design, and the remaining 50% only when your website is completed, approved on our private preview link, and ready to go live. We accept GCash, Maya, BDO, BPI, UnionBank, and PayPal.'
     },
     {
-      q: 'Can I order social media posters without a website?',
-      a: 'Yes! We offer standalone poster bundles: our Starter 3-Pack (₱999) and our Campaign 8-Pack (₱2,499).'
+      q: 'Can I order social media posters or graphic design without a website?',
+      a: 'Yes! We design standalone promotional posters, tournament announcements, class schedules, and event flyers. Send us a message with the details you want to include and we will prepare a quotation for your graphics.'
     }
   ];
 
@@ -252,7 +243,7 @@ I would like to discuss kickoff and availability!`;
       {/* Top Simple Announcement */}
       <div className="bg-[#2A1E17] text-[#FBF9F5] text-xs py-2 px-4 text-center font-medium">
         <div className="max-w-6xl mx-auto flex items-center justify-center space-x-2">
-          <span>Open for new projects · Sites starting at ₱9,999 · 50% kickoff / 50% live launch terms</span>
+          <span>Open for new projects · Send a message for a quotation · 50% kickoff / 50% live launch terms</span>
         </div>
       </div>
 
@@ -355,7 +346,7 @@ I would like to discuss kickoff and availability!`;
               onClick={() => scrollTo('pricing')} 
               className="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-xs sm:text-sm bg-white text-[#2A1E17] border border-[#D9CEBE] hover:bg-[#F3EDE3] transition-colors cursor-pointer"
             >
-              <span>View Packages (From ₱9,999)</span>
+              <span>View Website Packages</span>
             </button>
           </div>
 
@@ -370,7 +361,7 @@ I would like to discuss kickoff and availability!`;
             </div>
             <div className="p-4 rounded-xl bg-white border border-[#E8DFD3] shadow-xs flex flex-col justify-between space-y-1.5">
               <span className="font-bold text-[#2A1E17] text-sm block">GCash & Bank</span>
-              <span className="text-xs text-[#6E5948] leading-relaxed text-pretty">Clear instructions for customers to pay via GCash, Maya, or bank.</span>
+              <span className="text-xs text-[#6E5948] leading-relaxed text-pretty">Clear payment sections for GCash, Maya, and bank transfers.</span>
             </div>
             <div className="p-4 rounded-xl bg-white border border-[#E8DFD3] shadow-xs flex flex-col justify-between space-y-1.5">
               <span className="font-bold text-[#2A1E17] text-sm block">3 to 10 Days</span>
@@ -378,7 +369,7 @@ I would like to discuss kickoff and availability!`;
             </div>
             <div className="p-4 rounded-xl bg-white border border-[#E8DFD3] shadow-xs flex flex-col justify-between space-y-1.5">
               <span className="font-bold text-[#2A1E17] text-sm block">Zero Code Stress</span>
-              <span className="text-xs text-[#6E5948] leading-relaxed text-pretty">We handle all the tech setup, domain linking, and launch details from start to finish.</span>
+              <span className="text-xs text-[#6E5948] leading-relaxed text-pretty">We handle the technical setup, hosting, and launch details for you.</span>
             </div>
           </motion.div>
         </div>
@@ -388,15 +379,15 @@ I would like to discuss kickoff and availability!`;
       <section id="services" className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F3EDE3]/40 border-y border-[#E8DFD3]">
         <div className="max-w-6xl mx-auto space-y-10">
           <div className="space-y-2 max-w-2xl">
-            <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68] block">Our Core Services</span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1F1611] tracking-tight">What We Create For You</h2>
+            <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68] block">Our Services</span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1F1611] tracking-tight">What We Can Build For You</h2>
             <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
-              Straightforward digital solutions built for everyday business growth without unnecessary complexity.
+              Practical digital services built for everyday businesses, coaches, academies, and rental shops. Simple, professional, and built to work smoothly.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Service 1: Websites */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Service 1: Website Creation */}
             <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
               <div className="space-y-4">
                 <div className="w-11 h-11 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
@@ -404,30 +395,185 @@ I would like to discuss kickoff and availability!`;
                 </div>
                 <h3 className="text-xl font-bold text-[#1F1611] tracking-tight">Website Creation</h3>
                 <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
-                  Clean, mobile-first websites tailored to your brand. Great for everything from a simple single-page site to a full multi-page website with appointment booking.
+                  Clean, fast websites tailored to your brand. From single-page landing sites to multi-page platforms with direct contact and payment instructions.
                 </p>
               </div>
               <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-4 border-t border-[#F2ECE1]">
                 <li className="flex items-start gap-2.5 leading-snug">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Smooth mobile, tablet, and desktop experience.</span>
+                  <span>Smooth mobile, tablet, and desktop layout</span>
                 </li>
                 <li className="flex items-start gap-2.5 leading-snug">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Clear service offerings, pricing, & Google Maps.</span>
+                  <span>Clear service offerings, rates, and contact forms</span>
                 </li>
                 <li className="flex items-start gap-2.5 leading-snug">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Payment page showing your GCash QR & bank details.</span>
+                  <span>Direct buttons to chat on Facebook Messenger or call</span>
                 </li>
                 <li className="flex items-start gap-2.5 leading-snug">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>One-tap buttons to message you on Facebook or call your phone.</span>
+                  <span>2–3 design revision rounds on staging (negotiable)</span>
                 </li>
               </ul>
             </div>
 
-            {/* Service 2: Social Media Graphics */}
+            {/* Service 2: Website Redesign & Modernization */}
+            <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
+              <div className="space-y-4">
+                <div className="w-11 h-11 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
+                  <RefreshCw className="w-5 h-5 text-[#8C7A68]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#1F1611] tracking-tight">Website Redesign & Makeovers</h3>
+                <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
+                  Already have an existing site that looks outdated or loads slowly on phones? We modernize your site with a fresh layout, quicker loading, and clearer copy.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-4 border-t border-[#F2ECE1]">
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Modern, clean refresh of your old web pages</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Speed improvements and mobile layout fixes</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Simplified customer navigation and inquiry flow</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Preserves your domain and existing content</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Service 3: Booking & Schedule Integration */}
+            <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
+              <div className="space-y-4">
+                <div className="w-11 h-11 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
+                  <Calendar className="w-5 h-5 text-[#8C7A68]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#1F1611] tracking-tight">Booking & Schedule Systems</h3>
+                <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
+                  Make it easy for clients to view your availability, pick dates, and submit booking requests—just like our live Merilles Chess and GET2GO projects.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-4 border-t border-[#F2ECE1]">
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Class schedules & session batch listings</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Rental date selectors & curbside delivery requests</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Direct booking confirmation sent straight to Messenger</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Simple calendar management without complicated software</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Service 4: Digital Product Catalog & QR Menu */}
+            <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
+              <div className="space-y-4">
+                <div className="w-11 h-11 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
+                  <ShoppingBag className="w-5 h-5 text-[#8C7A68]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#1F1611] tracking-tight">Digital Catalog & QR Menu</h3>
+                <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
+                  A mobile-friendly price list or menu customers can open instantly by scanning a QR code on their phone, complete with instant order and inquiry buttons.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-4 border-t border-[#F2ECE1]">
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Clean mobile catalog with item photos and prices</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Custom printable QR code for your counter or tables</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Direct "Order via Messenger" button on each product</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Easy to update whenever prices or items change</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Service 5: Brand & Social Launch Assets */}
+            <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
+              <div className="space-y-4">
+                <div className="w-11 h-11 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
+                  <Palette className="w-5 h-5 text-[#8C7A68]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#1F1611] tracking-tight">Brand & Social Launch Assets</h3>
+                <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
+                  Unify your online look across your website and social pages with matching color palettes, readable fonts, cover banners, and digital QR payment cards.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-4 border-t border-[#F2ECE1]">
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Facebook cover banners & profile photo framing</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Digital GCash, Maya, & bank QR payment cards</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Curated color guide and clean typography rules</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>High-resolution exports ready for web and print</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Service 6: Campaign & Event Landing Pages */}
+            <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
+              <div className="space-y-4">
+                <div className="w-11 h-11 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
+                  <Flag className="w-5 h-5 text-[#8C7A68]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#1F1611] tracking-tight">Campaign & Event Pages</h3>
+                <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
+                  Targeted single-page websites dedicated to an upcoming tournament, seasonal workshop, registration drive, or promotional sale.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-4 border-t border-[#F2ECE1]">
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Focused design driving registrations or inquiries</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Countdown schedules, rules, prizes, and FAQs</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Fast 48–72 hour rush launch option available</span>
+                </li>
+                <li className="flex items-start gap-2.5 leading-snug">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span>Integrated registration form & payment details</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Service 7: Social Media Graphics */}
             <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
               <div className="space-y-4">
                 <div className="w-11 h-11 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
@@ -435,56 +581,56 @@ I would like to discuss kickoff and availability!`;
                 </div>
                 <h3 className="text-xl font-bold text-[#1F1611] tracking-tight">Social Media Graphics</h3>
                 <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
-                  Eye-catching, readable graphics for your Facebook page or Instagram feed so your business looks credible, organized, and professional.
+                  Clear, eye-catching posters for Facebook and Instagram so your followers stay informed about your schedules, promotions, and announcements.
                 </p>
               </div>
               <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-4 border-t border-[#F2ECE1]">
                 <li className="flex items-start gap-2.5 leading-snug">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Class schedules, tournament flyers, or sale posters.</span>
+                  <span>Tournament flyers, sale posters, & schedules</span>
                 </li>
                 <li className="flex items-start gap-2.5 leading-snug">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Facebook cover banners & story announcement graphics.</span>
+                  <span>Sized accurately for feed posts and stories</span>
                 </li>
                 <li className="flex items-start gap-2.5 leading-snug">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Consistent brand colors and clean, easy-to-read fonts.</span>
+                  <span>Easy-to-read typography that gets attention</span>
                 </li>
                 <li className="flex items-start gap-2.5 leading-snug">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>High-resolution exports ready for instant publishing.</span>
+                  <span>Available in 3-pack and 8-pack bundles</span>
                 </li>
               </ul>
             </div>
 
-            {/* Service 3: Monthly Maintenance */}
+            {/* Service 8: Monthly Site Care */}
             <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
               <div className="space-y-4">
                 <div className="w-11 h-11 rounded-xl bg-[#FBF9F5] border border-[#DDD1BE] flex items-center justify-center text-[#2A1E17]">
                   <Clock className="w-5 h-5 text-[#8C7A68]" />
                 </div>
-                <h3 className="text-xl font-bold text-[#1F1611] tracking-tight">Monthly Site Care</h3>
+                <h3 className="text-xl font-bold text-[#1F1611] tracking-tight">Monthly Site Care & Updates</h3>
                 <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
-                  Hands-off website maintenance. We keep your site fast, secure, and handle text or photo updates whenever your schedules or prices change.
+                  Hands-off maintenance. We keep your website fast, running smoothly, and update your text, rates, or photos whenever your business changes.
                 </p>
               </div>
               <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-4 border-t border-[#F2ECE1]">
                 <li className="flex items-start gap-2.5 leading-snug">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Speed audits, uptime checks, and security monitoring.</span>
+                  <span>Regular text, schedule, and photo updates</span>
                 </li>
                 <li className="flex items-start gap-2.5 leading-snug">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Schedule & content updates whenever you need them.</span>
+                  <span>Speed checks and uptime monitoring</span>
                 </li>
                 <li className="flex items-start gap-2.5 leading-snug">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Our Growth Plan includes 4 custom social media posters every month.</span>
+                  <span>Optional monthly package with fresh social posters</span>
                 </li>
                 <li className="flex items-start gap-2.5 leading-snug">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span>Direct chat support via Facebook Messenger.</span>
+                  <span>Direct support on Facebook Messenger</span>
                 </li>
               </ul>
             </div>
@@ -501,44 +647,30 @@ I would like to discuss kickoff and availability!`;
             <div className="lg:col-span-5 relative">
               <div className="lg:sticky lg:top-28 space-y-6">
                 <div className="space-y-2">
-                  <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68] block">Transparent Packages</span>
+                  <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68] block">Website Packages</span>
                   <h2 className="text-2xl sm:text-4xl font-extrabold text-[#1F1611] tracking-tight">
-                    Website Packages
+                    Website Options
                   </h2>
                   <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
-                    Clean, mobile-first websites tailored to your brand. Choose between streamlined single-page or a full multi-page website, all with simple 50/50 payment terms.
+                    Clean, mobile-first websites tailored to your business. Send a message explaining what website you want to build and we will send an honest quotation.
                   </p>
                 </div>
 
-                {/* Currency switcher */}
+                {/* Quotation Policy Badge */}
                 <div className="flex items-center justify-between p-3.5 bg-white border border-[#D9CEBE] rounded-xl shadow-2xs">
-                  <span className="text-xs font-semibold text-[#5C4A3C]">Display Currency:</span>
-                  <div className="flex items-center gap-1 p-0.5 bg-[#FBF9F5] border border-[#E8DFD3] rounded-lg">
-                    <button
-                      type="button"
-                      onClick={() => setCurrency('PHP')}
-                      className={`px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
-                        currency === 'PHP' ? 'bg-[#2A1E17] text-white shadow-xs' : 'text-[#6E5948] hover:text-[#2A1E17]'
-                      }`}
-                    >
-                      PHP (₱)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setCurrency('USD')}
-                      className={`px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
-                        currency === 'USD' ? 'bg-[#2A1E17] text-white shadow-xs' : 'text-[#6E5948] hover:text-[#2A1E17]'
-                      }`}
-                    >
-                      USD ($)
-                    </button>
+                  <div className="flex items-center space-x-2">
+                    <MessageSquare className="w-4 h-4 text-[#8C7A68]" />
+                    <span className="text-xs font-semibold text-[#5C4A3C]">Pricing Model:</span>
                   </div>
+                  <span className="text-xs font-bold text-[#2A1E17] bg-[#F3EDE3] px-2.5 py-1 rounded-md border border-[#D9CEBE]">
+                    Send a message for a quotation
+                  </span>
                 </div>
 
                 {/* Interactive Package Selector (Syncs with scroll & allows jump-click) */}
                 <div className="space-y-2.5">
                   <div className="text-xs font-bold uppercase tracking-wider text-[#8C7A68] flex items-center justify-between">
-                    <span>Website Tiers (Click to Jump):</span>
+                    <span>Website Options (Click to Jump):</span>
                     <span className="text-[11px] text-[#A39171] font-semibold">
                       Viewing: {activeWebsiteTier === 'basic' ? 'Basic' : activeWebsiteTier === 'immersive' ? 'Immersive' : 'Multi-Page'}
                     </span>
@@ -563,10 +695,10 @@ I would like to discuss kickoff and availability!`;
                       </span>
                     </div>
                     <div className="text-right">
-                      <span className={`text-base font-extrabold font-mono tabular-nums block ${activeWebsiteTier === 'basic' ? 'text-[#FBF9F5]' : 'text-[#2A1E17]'}`}>
-                        {formatPrice(9999, 179)}
+                      <span className={`text-xs font-bold block ${activeWebsiteTier === 'basic' ? 'text-[#FBF9F5]' : 'text-[#2A1E17]'}`}>
+                        Quotation
                       </span>
-                      <span className={`text-[11px] font-medium ${activeWebsiteTier === 'basic' ? 'text-[#C9BDAF]' : 'text-[#8C7A68]'}`}>one-time</span>
+                      <span className={`text-[11px] font-medium ${activeWebsiteTier === 'basic' ? 'text-[#C9BDAF]' : 'text-[#8C7A68]'}`}>via message</span>
                     </div>
                   </button>
 
@@ -592,10 +724,10 @@ I would like to discuss kickoff and availability!`;
                       </span>
                     </div>
                     <div className="text-right">
-                      <span className={`text-base font-extrabold font-mono tabular-nums block ${activeWebsiteTier === 'immersive' ? 'text-[#FBF9F5]' : 'text-[#2A1E17]'}`}>
-                        {formatPrice(12499, 225)}
+                      <span className={`text-xs font-bold block ${activeWebsiteTier === 'immersive' ? 'text-[#FBF9F5]' : 'text-[#2A1E17]'}`}>
+                        Quotation
                       </span>
-                      <span className={`text-[11px] font-medium ${activeWebsiteTier === 'immersive' ? 'text-[#C9BDAF]' : 'text-[#8C7A68]'}`}>one-time</span>
+                      <span className={`text-[11px] font-medium ${activeWebsiteTier === 'immersive' ? 'text-[#C9BDAF]' : 'text-[#8C7A68]'}`}>via message</span>
                     </div>
                   </button>
 
@@ -621,10 +753,10 @@ I would like to discuss kickoff and availability!`;
                       </span>
                     </div>
                     <div className="text-right">
-                      <span className={`text-base font-extrabold font-mono tabular-nums block ${activeWebsiteTier === 'multipage' ? 'text-[#FBF9F5]' : 'text-[#2A1E17]'}`}>
-                        Starts {formatPrice(17999, 320)}
+                      <span className={`text-xs font-bold block ${activeWebsiteTier === 'multipage' ? 'text-[#FBF9F5]' : 'text-[#2A1E17]'}`}>
+                        Quotation
                       </span>
-                      <span className={`text-[11px] font-medium ${activeWebsiteTier === 'multipage' ? 'text-[#C9BDAF]' : 'text-[#8C7A68]'}`}>one-time</span>
+                      <span className={`text-[11px] font-medium ${activeWebsiteTier === 'multipage' ? 'text-[#C9BDAF]' : 'text-[#8C7A68]'}`}>via message</span>
                     </div>
                   </button>
                 </div>
@@ -636,7 +768,7 @@ I would like to discuss kickoff and availability!`;
                     <span>50% Kickoff / 50% Launch Milestone</span>
                   </div>
                   <p className="text-xs text-[#6E5948] leading-relaxed text-pretty">
-                    50% downpayment upon kickoff to begin the design. The remaining 50% only when your website is completed, approved on private staging, and ready to launch.
+                    50% downpayment upon kickoff to begin the design. The remaining 50% only when your website is completed, approved on private staging, and ready to launch. Includes 2–3 design revision rounds (negotiable based on your needs).
                   </p>
                   <button
                     type="button"
@@ -646,9 +778,9 @@ I would like to discuss kickoff and availability!`;
                     )}
                     className="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
                   >
-                    <span>Inquire About {
-                      activeWebsiteTier === 'basic' ? 'Basic (₱9,999)' :
-                      activeWebsiteTier === 'immersive' ? 'Immersive (₱12,499)' : 'Multi-Page (Starts ₱17,999)'
+                    <span>Request Quotation for {
+                      activeWebsiteTier === 'basic' ? 'Basic' :
+                      activeWebsiteTier === 'immersive' ? 'Immersive' : 'Multi-Page'
                     }</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
@@ -699,7 +831,7 @@ I would like to discuss kickoff and availability!`;
                 {/* Card Body */}
                 <div className="space-y-3.5">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#8C7A68] uppercase tracking-wider block">Starter Tier</span>
+                    <span className="text-xs font-bold text-[#8C7A68] uppercase tracking-wider block">Starter Option</span>
                     <span className="text-xs font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200">
                       Clean & High-Converting
                     </span>
@@ -709,19 +841,23 @@ I would like to discuss kickoff and availability!`;
                     Single-Page Basic
                   </h3>
 
-                  <div className="flex items-baseline space-x-2.5">
-                    <span className="text-3xl sm:text-4xl font-extrabold text-[#2A1E17] font-mono tabular-nums">
-                      {formatPrice(9999, 179)}
+                  <div className="space-y-1">
+                    <span className="text-2xl sm:text-3xl font-extrabold text-[#2A1E17] block">
+                      Send a message for a quotation
                     </span>
-                    <span className="text-xs text-[#7C6958] font-medium">one-time investment</span>
+                    <span className="text-xs text-[#7C6958] font-medium block">
+                      Tell us what kind of website you need for an exact quotation.
+                    </span>
                   </div>
 
                   {/* 50/50 breakdown chip */}
                   <div className="inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F8F5EE] border border-[#E8DFD3] text-xs text-[#5C4A3C]">
-                    <span className="font-semibold text-[#2A1E17]">Milestone:</span>
-                    <span>50% Kickoff ({formatPrice(4999.5, 89.5)})</span>
+                    <span className="font-semibold text-[#2A1E17]">Terms:</span>
+                    <span>50% Kickoff Downpayment</span>
                     <span>·</span>
-                    <span>50% Live Approval ({formatPrice(4999.5, 89.5)})</span>
+                    <span>50% Approved Live Launch</span>
+                    <span>·</span>
+                    <span>2–3 Revisions (negotiable)</span>
                   </div>
 
                   <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
@@ -759,6 +895,10 @@ I would like to discuss kickoff and availability!`;
                       <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>Realistic 3–5 day turnaround to launch</span>
                     </div>
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                      <span>2–3 design revision rounds on staging (negotiable)</span>
+                    </div>
                   </div>
                 </div>
 
@@ -769,18 +909,18 @@ I would like to discuss kickoff and availability!`;
                     onClick={() => handleSelectPackage('starter-basic')}
                     className="flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
                   >
-                    <span>Inquire About Basic ({formatPrice(9999, 179)})</span>
+                    <span>Request Quotation for Basic</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                   <button
                     type="button"
                     onClick={() => {
-                      setCalcWebsite('starter-basic');
+                      setScopeWebsite('starter-basic');
                       scrollTo('estimator');
                     }}
                     className="py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#EFE8DD] transition-colors cursor-pointer"
                   >
-                    <span>Calculate in Estimator</span>
+                    <span>Configure in Quote Builder</span>
                   </button>
                 </div>
               </motion.div>
@@ -829,7 +969,7 @@ I would like to discuss kickoff and availability!`;
                 {/* Card Body */}
                 <div className="space-y-3.5">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#A39171] uppercase tracking-wider block">Enhanced Studio Tier</span>
+                    <span className="text-xs font-bold text-[#A39171] uppercase tracking-wider block">Enhanced Studio Option</span>
                     <span className="text-xs font-bold text-[#2A1E17] bg-[#F3EDE3] px-2.5 py-0.5 rounded border border-[#D9CEBE]">
                       ★ Most Popular Choice
                     </span>
@@ -840,19 +980,23 @@ I would like to discuss kickoff and availability!`;
                     <Sparkles className="w-5 h-5 text-[#A39171]" />
                   </h3>
 
-                  <div className="flex items-baseline space-x-2.5">
-                    <span className="text-3xl sm:text-4xl font-extrabold text-[#2A1E17] font-mono tabular-nums">
-                      {formatPrice(12499, 225)}
+                  <div className="space-y-1">
+                    <span className="text-2xl sm:text-3xl font-extrabold text-[#2A1E17] block">
+                      Send a message for a quotation
                     </span>
-                    <span className="text-xs text-[#7C6958] font-medium">one-time investment</span>
+                    <span className="text-xs text-[#7C6958] font-medium block">
+                      Includes custom scroll animations and 2 Free social media launch posters.
+                    </span>
                   </div>
 
                   {/* 50/50 breakdown chip */}
                   <div className="inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F8F5EE] border border-[#E8DFD3] text-xs text-[#5C4A3C]">
-                    <span className="font-semibold text-[#2A1E17]">Milestone:</span>
-                    <span>50% Kickoff ({formatPrice(6249.5, 112.5)})</span>
+                    <span className="font-semibold text-[#2A1E17]">Terms:</span>
+                    <span>50% Kickoff Downpayment</span>
                     <span>·</span>
-                    <span>50% Live Approval ({formatPrice(6249.5, 112.5)})</span>
+                    <span>50% Approved Live Launch</span>
+                    <span>·</span>
+                    <span>2–3 Revisions (negotiable)</span>
                   </div>
 
                   <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
@@ -880,7 +1024,7 @@ I would like to discuss kickoff and availability!`;
                     </div>
                     <div className="flex items-start gap-2.5 leading-snug">
                       <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                      <span>Dedicated payment section for your GCash QR, bank details, and proof of payment instructions.</span>
+                      <span>Dedicated payment section for your GCash QR and bank details</span>
                     </div>
                     <div className="flex items-start gap-2.5 leading-snug">
                       <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
@@ -889,6 +1033,10 @@ I would like to discuss kickoff and availability!`;
                     <div className="flex items-start gap-2.5 leading-snug">
                       <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>5–7 business days turnaround</span>
+                    </div>
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                      <span>2–3 design revision rounds on staging (negotiable)</span>
                     </div>
                   </div>
                 </div>
@@ -900,18 +1048,18 @@ I would like to discuss kickoff and availability!`;
                     onClick={() => handleSelectPackage('starter-immersive')}
                     className="flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
                   >
-                    <span>Inquire About Immersive ({formatPrice(12499, 225)})</span>
+                    <span>Request Quotation for Immersive</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                   <button
                     type="button"
                     onClick={() => {
-                      setCalcWebsite('starter-immersive');
+                      setScopeWebsite('starter-immersive');
                       scrollTo('estimator');
                     }}
                     className="py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#EFE8DD] transition-colors cursor-pointer"
                   >
-                    <span>Calculate in Estimator</span>
+                    <span>Configure in Quote Builder</span>
                   </button>
                 </div>
               </motion.div>
@@ -971,23 +1119,23 @@ I would like to discuss kickoff and availability!`;
                     Multi-Page Website
                   </h3>
 
-                  <div className="flex items-baseline space-x-2.5">
-                    <span className="text-3xl sm:text-4xl font-extrabold text-[#2A1E17] font-mono tabular-nums">
-                      Starts at {formatPrice(17999, 320)}
+                  <div className="space-y-1">
+                    <span className="text-2xl sm:text-3xl font-extrabold text-[#2A1E17] block">
+                      Send a message for a quotation
                     </span>
-                    <span className="text-xs text-[#7C6958] font-medium">one-time starting offer</span>
+                    <span className="text-xs text-[#7C6958] font-medium block">
+                      Custom quoted based on total pages and specific features requested.
+                    </span>
                   </div>
-
-                  <p className="text-xs text-[#8C7A68] font-medium">
-                    *Starting price; will adjust depending on specific client requests and total pages required.
-                  </p>
 
                   {/* 50/50 breakdown chip */}
                   <div className="inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F8F5EE] border border-[#E8DFD3] text-xs text-[#5C4A3C]">
-                    <span className="font-semibold text-[#2A1E17]">Milestone:</span>
-                    <span>50% Kickoff (~{formatPrice(8999.5, 160)})</span>
+                    <span className="font-semibold text-[#2A1E17]">Terms:</span>
+                    <span>50% Kickoff Downpayment</span>
                     <span>·</span>
-                    <span>50% Live Approval (~{formatPrice(8999.5, 160)})</span>
+                    <span>50% Approved Live Launch</span>
+                    <span>·</span>
+                    <span>2–3 Revisions (negotiable)</span>
                   </div>
 
                   <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
@@ -1025,6 +1173,10 @@ I would like to discuss kickoff and availability!`;
                       <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                       <span>7–10 days turnaround with thorough staging review</span>
                     </div>
+                    <div className="flex items-start gap-2.5 leading-snug">
+                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                      <span>2–3 design revision rounds on staging (negotiable)</span>
+                    </div>
                   </div>
                 </div>
 
@@ -1035,18 +1187,18 @@ I would like to discuss kickoff and availability!`;
                     onClick={() => handleSelectPackage('multipage')}
                     className="flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#2A1E17] text-[#FBF9F5] hover:bg-[#3E2D23] transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
                   >
-                    <span>Inquire About Multi-Page (Starts {formatPrice(17999, 320)})</span>
+                    <span>Request Quotation for Multi-Page</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                   <button
                     type="button"
                     onClick={() => {
-                      setCalcWebsite('multipage');
+                      setScopeWebsite('multipage');
                       scrollTo('estimator');
                     }}
                     className="py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#EFE8DD] transition-colors cursor-pointer"
                   >
-                    <span>Calculate in Estimator</span>
+                    <span>Configure in Quote Builder</span>
                   </button>
                 </div>
               </motion.div>
@@ -1058,79 +1210,48 @@ I would like to discuss kickoff and availability!`;
             {/* Monthly Maintenance & Content Care */}
             <div className="p-6 sm:p-8 rounded-2xl bg-white border border-[#E2D6C5] flex flex-col justify-between space-y-5 shadow-xs">
               <div className="space-y-4">
-                <span className="text-xs font-bold text-[#8C7A68] uppercase tracking-wider block">Monthly Maintenance and Design</span>
-
-                <div className="p-1 bg-[#FBF9F5] border border-[#E8DFD3] rounded-lg flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={() => setActiveMaintenance('guardian')}
-                    className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-md transition-all cursor-pointer ${
-                      activeMaintenance === 'guardian' ? 'bg-[#2A1E17] text-white shadow-xs' : 'text-[#6E5948] hover:text-[#2A1E17]'
-                    }`}
-                  >
-                    Site Guardian
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setActiveMaintenance('growth')}
-                    className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-md transition-all cursor-pointer ${
-                      activeMaintenance === 'growth' ? 'bg-[#2A1E17] text-white shadow-xs' : 'text-[#6E5948] hover:text-[#2A1E17]'
-                    }`}
-                  >
-                    Web + 4 Posters
-                  </button>
-                </div>
+                <span className="text-xs font-bold text-[#8C7A68] uppercase tracking-wider block">Ongoing Support</span>
 
                 <div className="space-y-1">
                   <h3 className="text-xl sm:text-2xl font-bold text-[#1F1611]">
-                    {activeMaintenance === 'guardian' ? 'Site Guardian' : 'Growth Partner (Web + Posters)'}
+                    Monthly Website Care & Updates
                   </h3>
-                  <div className="flex items-baseline space-x-1.5">
-                    <span className="text-2xl sm:text-3xl font-extrabold text-[#2A1E17] font-mono tabular-nums">
-                      {activeMaintenance === 'guardian' ? formatPrice(999, 18) : formatPrice(1999, 36)}
+                  <div className="space-y-0.5">
+                    <span className="text-xl sm:text-2xl font-extrabold text-[#2A1E17] block">
+                      Send a message for a quotation
                     </span>
-                    <span className="text-xs text-[#7C6958]">/ month</span>
+                    <span className="text-xs text-[#7C6958]">
+                      Custom plans based on how frequently your content and schedules change.
+                    </span>
                   </div>
-                  <p className="text-xs text-[#8C7A68] font-medium">
-                    *Starting rate; subject to change depending on client requests.
-                  </p>
                 </div>
 
                 <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
-                  {activeMaintenance === 'guardian'
-                    ? 'Speed, security, uptime checks, and up to 3 text/photo revisions every month.'
-                    : 'Full website care PLUS 4 fresh, custom-designed social media posters designed every month!'}
+                  We look after your website speed, security, and update text, photos, and schedules whenever your business needs it.
                 </p>
 
                 <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-3 border-t border-[#F2ECE1]">
                   <li className="flex items-start gap-2.5 leading-snug">
                     <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                    <span>Regular text, schedule, and photo updates (up to 4 update requests per month)</span>
+                    <span>Regular text, schedule, rate, and photo updates</span>
                   </li>
-                  {activeMaintenance === 'growth' ? (
-                    <li className="flex items-start gap-2.5 leading-snug font-semibold text-[#2A1E17]">
-                      <Sparkles className="w-4 h-4 text-[#A39171] mt-0.5 shrink-0" />
-                      <span>Complete website care plus 4 fresh, custom social media posters every month.</span>
-                    </li>
-                  ) : (
-                    <li className="flex items-start gap-2.5 leading-snug">
-                      <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                      <span>Up to 3 minor site revisions/month</span>
-                    </li>
-                  )}
+                  <li className="flex items-start gap-2.5 leading-snug font-semibold text-[#2A1E17]">
+                    <Sparkles className="w-4 h-4 text-[#A39171] mt-0.5 shrink-0" />
+                    <span>Optional Growth Plan: includes 4 fresh custom social media posters every month</span>
+                  </li>
                   <li className="flex items-start gap-2.5 leading-snug">
                     <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                    <span>Direct messaging whenever you have questions</span>
+                    <span>Direct chat support on Facebook Messenger</span>
                   </li>
                 </ul>
               </div>
 
               <button
                 type="button"
-                onClick={() => handleSelectPackage(`maintenance-${activeMaintenance}`)}
+                onClick={() => handleSelectPackage('monthly-care')}
                 className="w-full py-3 rounded-xl text-xs sm:text-sm font-bold text-center bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#2A1E17] hover:text-white transition-colors cursor-pointer shadow-2xs"
               >
-                Inquire About {activeMaintenance === 'guardian' ? 'Site Guardian (Starts ₱999)' : 'Growth Partner (Starts ₱1,999)'}
+                Inquire About Monthly Care
               </button>
             </div>
 
@@ -1141,32 +1262,28 @@ I would like to discuss kickoff and availability!`;
                   <Palette className="w-4 h-4 text-[#8C7A68]" />
                   <span>Standalone Graphic Design</span>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-[#1F1611]">Social Media Poster Bundles</h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#1F1611]">Social Media Graphics & Flyers</h3>
                 <p className="text-sm text-[#6E5948] leading-relaxed text-pretty">
-                  Need eye-catching, ready-to-post graphics without getting a website? We craft tailored promos, event flyers, tournament graphics, or announcements.
+                  Need eye-catching, ready-to-post graphics without getting a website? We design tailored promos, tournament flyers, event graphics, and announcements.
                 </p>
 
-                <div className="grid grid-cols-2 gap-3 pt-1">
-                  <div className="p-3.5 bg-[#FBF9F5] border border-[#E8DFD3] rounded-xl text-center">
-                    <span className="text-xs font-bold text-[#2A1E17] block">Starter 3-Pack</span>
-                    <span className="text-xl font-black text-[#2A1E17] font-mono block mt-0.5 tabular-nums">₱999</span>
-                    <span className="text-xs text-[#7C6958]">₱333 per poster</span>
-                  </div>
-                  <div className="p-3.5 bg-[#FBF9F5] border border-[#E8DFD3] rounded-xl text-center">
-                    <span className="text-xs font-bold text-[#2A1E17] block">Campaign 8-Pack</span>
-                    <span className="text-xl font-black text-[#2A1E17] font-mono block mt-0.5 tabular-nums">₱2,499</span>
-                    <span className="text-xs text-[#7C6958]">₱312 per poster</span>
-                  </div>
+                <div className="space-y-1">
+                  <span className="text-xl sm:text-2xl font-extrabold text-[#2A1E17] block">
+                    Send a message for a quotation
+                  </span>
+                  <span className="text-xs text-[#7C6958]">
+                    Available in single posters, 3-packs, 8-packs, or custom quantities.
+                  </span>
                 </div>
 
                 <ul className="space-y-2.5 text-xs sm:text-sm text-[#5C4A3C] pt-3 border-t border-[#F2ECE1]">
                   <li className="flex items-start gap-2.5 leading-snug">
                     <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                    <span>Sized perfectly for Facebook, Instagram, Messenger, and TikTok.</span>
+                    <span>Sized for Facebook, Instagram, Messenger, and stories</span>
                   </li>
                   <li className="flex items-start gap-2.5 leading-snug">
                     <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                    <span>High-resolution exports in PNG/JPEG</span>
+                    <span>High-resolution exports in PNG and JPEG formats</span>
                   </li>
                   <li className="flex items-start gap-2.5 leading-snug">
                     <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
@@ -1175,22 +1292,13 @@ I would like to discuss kickoff and availability!`;
                 </ul>
               </div>
 
-              <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => handleSelectPackage('posters-starter')}
-                  className="flex-1 py-3 rounded-xl text-xs sm:text-sm font-bold bg-[#FBF9F5] border border-[#D9CEBE] text-[#2A1E17] hover:bg-[#EFE8DD] transition-colors cursor-pointer text-center"
-                >
-                  Order 3-Pack (₱999)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleSelectPackage('posters-campaign')}
-                  className="flex-1 py-3 rounded-xl text-xs sm:text-sm font-bold bg-[#2A1E17] text-white hover:bg-[#3E2D23] transition-colors cursor-pointer text-center shadow-xs"
-                >
-                  Order 8-Pack (₱2,499)
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={() => handleSelectPackage('posters')}
+                className="w-full py-3 rounded-xl text-xs sm:text-sm font-bold bg-[#2A1E17] text-white hover:bg-[#3E2D23] transition-colors cursor-pointer text-center shadow-xs"
+              >
+                Inquire About Social Posters
+              </button>
             </div>
           </div>
 
@@ -1198,58 +1306,58 @@ I would like to discuss kickoff and availability!`;
           <div className="p-6 rounded-2xl bg-white border border-[#D9CEBE] text-[#6E5948] space-y-2 shadow-2xs">
             <h4 className="text-sm sm:text-base font-bold text-[#2A1E17] block">A quick note on domains and hosting:</h4>
             <p className="text-xs sm:text-sm leading-relaxed text-pretty">
-              Our package prices cover the complete design, build, and setup of your website. We host and manage your website files on our fast servers so you never have to deal with code or monthly hosting fees. The only thing you pay for directly is your custom domain name (like yourbusiness.com via Namecheap or Cloudflare, usually around ₱600–₱900/year). We'll help you set it up so you own your domain name 100%, with zero lock-in.
+              Our website services cover the complete design, build, and technical setup of your site. We host and manage your website files on fast, secure servers so you never have to deal with code. The only thing you pay for directly is your custom domain name (like yourbusiness.com via Namecheap or Cloudflare, usually around ₱600–₱900/year). We help you set it up so you own your domain name 100%, with zero lock-in.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Interactive Project Cost Estimator & Quote Generator */}
+      {/* Interactive Project Scope & Quotation Builder */}
       <section id="estimator" className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F3EDE3]/40 border-t border-[#E8DFD3]">
         <div className="max-w-6xl mx-auto space-y-10">
           <div className="space-y-2 max-w-2xl">
             <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#8C7A68]">
               <Calculator className="w-4 h-4 text-[#8C7A68]" />
-              <span>Interactive Estimator</span>
+              <span>Project Scope Builder</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1F1611] tracking-tight">
-              Customize Your Project & Get an Instant Estimate
+              Build Your Scope & Request a Quotation
             </h2>
             <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
-              Select what your business needs to calculate your exact one-time investment and optional monthly maintenance plan.
+              Select the website type and features you need. This generates a clear quotation request message you can send us directly on Facebook Messenger or using the form below.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Left Controls */}
             <div className="lg:col-span-7 space-y-5">
-              {/* Step 1: Website */}
+              {/* Step 1: Website Architecture */}
               <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#D9CEBE] space-y-3.5 shadow-xs">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#2A1E17] block">
-                  1. Choose Website Architecture
+                  1. Choose Website Type
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <button
                     type="button"
-                    onClick={() => setCalcWebsite('starter-basic')}
+                    onClick={() => setScopeWebsite('starter-basic')}
                     className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
-                      calcWebsite === 'starter-basic'
+                      scopeWebsite === 'starter-basic'
                         ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs ring-1 ring-[#2A1E17]/10'
                         : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                     }`}
                   >
                     <div className="flex justify-between items-center">
-                      <span className="font-bold text-sm text-[#2A1E17]">Starter: Basic</span>
-                      <span className="font-mono text-xs font-bold text-[#8C7A68] tabular-nums">{formatPrice(9999, 179)}</span>
+                      <span className="font-bold text-sm text-[#2A1E17]">Single-Page Basic</span>
+                      <span className="text-xs font-bold text-[#8C7A68]">3–5 Days</span>
                     </div>
-                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">Single page, static clean layout, 3–5 days.</p>
+                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">Single-page layout, clean presentation, direct contact buttons.</p>
                   </button>
 
                   <button
                     type="button"
-                    onClick={() => setCalcWebsite('starter-immersive')}
+                    onClick={() => setScopeWebsite('starter-immersive')}
                     className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
-                      calcWebsite === 'starter-immersive'
+                      scopeWebsite === 'starter-immersive'
                         ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs ring-1 ring-[#2A1E17]/10'
                         : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                     }`}
@@ -1257,136 +1365,236 @@ I would like to discuss kickoff and availability!`;
                     <div className="flex justify-between items-center">
                       <span className="font-bold text-sm text-[#2A1E17] flex items-center gap-1">
                         <Sparkles className="w-3.5 h-3.5 text-[#A39171]" />
-                        Starter: Immersive
+                        Single-Page Immersive
                       </span>
-                      <span className="font-mono text-xs font-bold text-[#8C7A68] tabular-nums">{formatPrice(12499, 225)}</span>
+                      <span className="text-xs font-bold text-[#8C7A68]">5–7 Days</span>
                     </div>
-                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">Scroll motion + 2 Free Launch Posters.</p>
+                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">Scroll animations, bespoke styling + 2 Free Launch Posters.</p>
                   </button>
 
                   <button
                     type="button"
-                    onClick={() => setCalcWebsite('multipage')}
+                    onClick={() => setScopeWebsite('multipage')}
                     className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
-                      calcWebsite === 'multipage'
+                      scopeWebsite === 'multipage'
                         ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs ring-1 ring-[#2A1E17]/10'
                         : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                     }`}
                   >
                     <div className="flex justify-between items-center">
-                      <span className="font-bold text-sm text-[#2A1E17]">Multi-Page Website</span>
-                      <span className="font-mono text-xs font-bold text-[#8C7A68] tabular-nums">Starts {formatPrice(17999, 320)}</span>
+                      <span className="font-bold text-sm text-[#2A1E17] flex items-center gap-1">
+                        <Layers className="w-3.5 h-3.5 text-[#A39171]" />
+                        Multi-Page Website
+                      </span>
+                      <span className="text-xs font-bold text-[#8C7A68]">7–10 Days</span>
                     </div>
-                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">Home + 3 pages + 4 Free Launch Posters.</p>
+                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">Home + 3 dedicated pages + 4 Free Launch Posters.</p>
                   </button>
 
                   <button
                     type="button"
-                    onClick={() => setCalcWebsite('none')}
+                    onClick={() => setScopeWebsite('redesign')}
                     className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
-                      calcWebsite === 'none'
+                      scopeWebsite === 'redesign'
+                        ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs ring-1 ring-[#2A1E17]/10'
+                        : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <span className="font-bold text-sm text-[#2A1E17] flex items-center gap-1">
+                        <RefreshCw className="w-3.5 h-3.5 text-[#8C7A68]" />
+                        Website Redesign
+                      </span>
+                      <span className="text-xs font-bold text-[#8C7A68]">Makeover</span>
+                    </div>
+                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">Rebuilding an outdated website for faster mobile performance.</p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setScopeWebsite('campaign')}
+                    className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                      scopeWebsite === 'campaign'
+                        ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs ring-1 ring-[#2A1E17]/10'
+                        : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <span className="font-bold text-sm text-[#2A1E17] flex items-center gap-1">
+                        <Flag className="w-3.5 h-3.5 text-[#8C7A68]" />
+                        Campaign / Event Page
+                      </span>
+                      <span className="text-xs font-bold text-[#8C7A68]">Targeted</span>
+                    </div>
+                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">High-impact single page for tournaments, workshops, or sales.</p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setScopeWebsite('none')}
+                    className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                      scopeWebsite === 'none'
                         ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs ring-1 ring-[#2A1E17]/10'
                         : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                     }`}
                   >
                     <div className="flex justify-between items-center">
                       <span className="font-bold text-sm text-[#2A1E17]">No Website Needed</span>
-                      <span className="font-mono text-xs text-[#7C6958] tabular-nums">{formatPrice(0, 0)}</span>
+                      <span className="text-xs text-[#7C6958]">Graphics Only</span>
                     </div>
-                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">I only need posters or monthly care.</p>
+                    <p className="text-xs text-[#6E5948] mt-1.5 leading-normal text-pretty">I only need social posters, brand assets, or monthly care.</p>
                   </button>
                 </div>
               </div>
 
-              {/* Step 2: Monthly Care */}
+              {/* Step 2: Features & Add-ons */}
               <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#D9CEBE] space-y-3.5 shadow-xs">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#2A1E17] block">
-                  2. Monthly Maintenance & Content Care (Optional)
+                  2. Select Features & Deliverables Needed
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setCalcMaintenance('none')}
-                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
-                      calcMaintenance === 'none' ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
+                <div className="space-y-2.5">
+                  {/* Booking */}
+                  <div
+                    onClick={() => toggleAddon('booking')}
+                    className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
+                      scopeAddons.booking ? 'border-[#2A1E17] bg-[#FBF9F5]' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
                     }`}
                   >
-                    <span className="font-bold text-sm text-[#2A1E17] block">No Monthly Care</span>
-                    <span className="text-xs text-[#7C6958] mt-1 block">One-time delivery only</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setCalcMaintenance('guardian')}
-                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
-                      calcMaintenance === 'guardian' ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
-                    }`}
-                  >
-                    <span className="font-bold text-sm text-[#2A1E17] block">Site Guardian</span>
-                    <span className="font-mono text-xs font-bold text-[#8C7A68] block mt-0.5 tabular-nums">Starts {formatPrice(999, 18)}/mo</span>
-                    <span className="text-xs text-[#7C6958] mt-1 block">Speed, uptime, 3 updates*</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setCalcMaintenance('growth')}
-                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
-                      calcMaintenance === 'growth' ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
-                    }`}
-                  >
-                    <span className="font-bold text-sm text-[#2A1E17] block">Growth Partner</span>
-                    <span className="font-mono text-xs font-bold text-[#8C7A68] block mt-0.5 tabular-nums">Starts {formatPrice(1999, 36)}/mo</span>
-                    <span className="text-xs text-[#A39171] font-semibold mt-1 block">Web care + 4 Posters/mo*</span>
-                  </button>
-                </div>
-                <p className="text-xs text-[#8C7A68] italic">
-                  *Monthly care rates are starting estimates; subject to change depending on client requests.
-                </p>
-              </div>
-
-              {/* Step 3: Social Media Posters */}
-              <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#D9CEBE] space-y-3.5 shadow-xs">
-                <label className="text-xs font-bold uppercase tracking-wider text-[#2A1E17] block">
-                  3. Extra Social Media Posters / Flyers
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                  {[
-                    { count: 0, label: 'None', price: 0 },
-                    { count: 3, label: '3 Posters', price: 999 },
-                    { count: 6, label: '6 Posters', price: 1899 },
-                    { count: 8, label: '8 Posters', price: 2499 }
-                  ].map((item) => (
-                    <button
-                      key={item.count}
-                      type="button"
-                      onClick={() => setCalcPosters(item.count)}
-                      className={`p-3 rounded-xl border text-center transition-all cursor-pointer ${
-                        calcPosters === item.count ? 'border-[#2A1E17] bg-[#FBF9F5] shadow-xs' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
-                      }`}
-                    >
-                      <span className="font-bold text-xs sm:text-sm text-[#2A1E17] block">{item.label}</span>
-                      <span className="font-mono text-xs text-[#8C7A68] block mt-0.5 tabular-nums">
-                        {item.price === 0 ? '₱0' : `+${formatPrice(item.price, Math.round(item.price / 56))}`}
+                    <div className="space-y-0.5">
+                      <span className="text-xs sm:text-sm font-bold text-[#2A1E17] flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-[#8C7A68]" />
+                        <span>Booking & Schedule System Integration</span>
                       </span>
-                    </button>
-                  ))}
+                      <span className="text-xs text-[#7C6958] block">
+                        Interactive appointment calendar, rental date selector, or batch schedules.
+                      </span>
+                    </div>
+                    <div className={`w-5 h-5 rounded flex items-center justify-center border ${scopeAddons.booking ? 'bg-[#2A1E17] border-[#2A1E17] text-white' : 'border-[#D9CEBE]'}`}>
+                      {scopeAddons.booking && <Check className="w-3.5 h-3.5" />}
+                    </div>
+                  </div>
+
+                  {/* Catalog / QR Menu */}
+                  <div
+                    onClick={() => toggleAddon('catalog')}
+                    className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
+                      scopeAddons.catalog ? 'border-[#2A1E17] bg-[#FBF9F5]' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
+                    }`}
+                  >
+                    <div className="space-y-0.5">
+                      <span className="text-xs sm:text-sm font-bold text-[#2A1E17] flex items-center gap-2">
+                        <ShoppingBag className="w-4 h-4 text-[#8C7A68]" />
+                        <span>Digital Product Catalog & QR Menu</span>
+                      </span>
+                      <span className="text-xs text-[#7C6958] block">
+                        Mobile-friendly catalog with instant Messenger order buttons and printable QR code.
+                      </span>
+                    </div>
+                    <div className={`w-5 h-5 rounded flex items-center justify-center border ${scopeAddons.catalog ? 'bg-[#2A1E17] border-[#2A1E17] text-white' : 'border-[#D9CEBE]'}`}>
+                      {scopeAddons.catalog && <Check className="w-3.5 h-3.5" />}
+                    </div>
+                  </div>
+
+                  {/* Brand & Social Launch Assets */}
+                  <div
+                    onClick={() => toggleAddon('brandAssets')}
+                    className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
+                      scopeAddons.brandAssets ? 'border-[#2A1E17] bg-[#FBF9F5]' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
+                    }`}
+                  >
+                    <div className="space-y-0.5">
+                      <span className="text-xs sm:text-sm font-bold text-[#2A1E17] flex items-center gap-2">
+                        <Palette className="w-4 h-4 text-[#8C7A68]" />
+                        <span>Brand & Social Launch Assets</span>
+                      </span>
+                      <span className="text-xs text-[#7C6958] block">
+                        Matching cover banners, color guide, typography, and digital GCash/Maya QR payment cards.
+                      </span>
+                    </div>
+                    <div className={`w-5 h-5 rounded flex items-center justify-center border ${scopeAddons.brandAssets ? 'bg-[#2A1E17] border-[#2A1E17] text-white' : 'border-[#D9CEBE]'}`}>
+                      {scopeAddons.brandAssets && <Check className="w-3.5 h-3.5" />}
+                    </div>
+                  </div>
+
+                  {/* Social Posters */}
+                  <div
+                    onClick={() => toggleAddon('posters3')}
+                    className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
+                      scopeAddons.posters3 ? 'border-[#2A1E17] bg-[#FBF9F5]' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
+                    }`}
+                  >
+                    <div className="space-y-0.5">
+                      <span className="text-xs sm:text-sm font-bold text-[#2A1E17] flex items-center gap-2">
+                        <Smartphone className="w-4 h-4 text-[#8C7A68]" />
+                        <span>Social Media Posters Bundle (3-Pack)</span>
+                      </span>
+                      <span className="text-xs text-[#7C6958] block">
+                        3 high-resolution graphics for Facebook/Instagram announcements or promos.
+                      </span>
+                    </div>
+                    <div className={`w-5 h-5 rounded flex items-center justify-center border ${scopeAddons.posters3 ? 'bg-[#2A1E17] border-[#2A1E17] text-white' : 'border-[#D9CEBE]'}`}>
+                      {scopeAddons.posters3 && <Check className="w-3.5 h-3.5" />}
+                    </div>
+                  </div>
+
+                  {/* Campaign 8-Pack */}
+                  <div
+                    onClick={() => toggleAddon('posters8')}
+                    className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
+                      scopeAddons.posters8 ? 'border-[#2A1E17] bg-[#FBF9F5]' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
+                    }`}
+                  >
+                    <div className="space-y-0.5">
+                      <span className="text-xs sm:text-sm font-bold text-[#2A1E17] flex items-center gap-2">
+                        <Smartphone className="w-4 h-4 text-[#8C7A68]" />
+                        <span>Social Media Campaign Bundle (8-Pack)</span>
+                      </span>
+                      <span className="text-xs text-[#7C6958] block">
+                        Full pack of 8 custom promo graphics, schedules, or event flyers.
+                      </span>
+                    </div>
+                    <div className={`w-5 h-5 rounded flex items-center justify-center border ${scopeAddons.posters8 ? 'bg-[#2A1E17] border-[#2A1E17] text-white' : 'border-[#D9CEBE]'}`}>
+                      {scopeAddons.posters8 && <Check className="w-3.5 h-3.5" />}
+                    </div>
+                  </div>
+
+                  {/* Monthly Care */}
+                  <div
+                    onClick={() => toggleAddon('maintenance')}
+                    className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
+                      scopeAddons.maintenance ? 'border-[#2A1E17] bg-[#FBF9F5]' : 'border-[#E8DFD3] hover:border-[#D9CEBE]'
+                    }`}
+                  >
+                    <div className="space-y-0.5">
+                      <span className="text-xs sm:text-sm font-bold text-[#2A1E17] flex items-center gap-2">
+                        <Clock className="w-4 h-4 text-[#8C7A68]" />
+                        <span>Monthly Website Care & Content Updates</span>
+                      </span>
+                      <span className="text-xs text-[#7C6958] block">
+                        Ongoing maintenance, speed checks, and regular schedule/text updates.
+                      </span>
+                    </div>
+                    <div className={`w-5 h-5 rounded flex items-center justify-center border ${scopeAddons.maintenance ? 'bg-[#2A1E17] border-[#2A1E17] text-white' : 'border-[#D9CEBE]'}`}>
+                      {scopeAddons.maintenance && <Check className="w-3.5 h-3.5" />}
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Step 4: Rush option */}
+              {/* Step 3: Launch Timeline */}
               <div className="p-4 sm:p-5 rounded-xl bg-white border border-[#D9CEBE] flex items-center justify-between shadow-xs">
                 <div className="space-y-0.5">
-                  <div className="text-xs sm:text-sm font-bold text-[#2A1E17]">Expedited Rush Delivery (48–72 Hours)</div>
-                  <div className="text-xs text-[#7C6958]">Priority queue for upcoming campaign launches.</div>
+                  <div className="text-xs sm:text-sm font-bold text-[#2A1E17]">Expedited Priority Rush (48–72 Hours)</div>
+                  <div className="text-xs text-[#7C6958]">Priority queue for urgent launches or upcoming deadlines.</div>
                 </div>
                 <button
                   type="button"
-                  onClick={() => setCalcRush(!calcRush)}
+                  onClick={() => setScopeRush(!scopeRush)}
                   className={`px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider cursor-pointer transition-colors ${
-                    calcRush ? 'bg-[#2A1E17] text-[#FBF9F5]' : 'bg-[#F3EDE3] text-[#2A1E17] hover:bg-[#E8DFD3]'
+                    scopeRush ? 'bg-[#2A1E17] text-[#FBF9F5]' : 'bg-[#F3EDE3] text-[#2A1E17] hover:bg-[#E8DFD3]'
                   }`}
                 >
-                  {calcRush ? `Added (+${formatPrice(2000, 36)})` : `Add +${formatPrice(2000, 36)}`}
+                  {scopeRush ? 'Rush Priority Selected' : 'Select Rush'}
                 </button>
               </div>
             </div>
@@ -1394,59 +1602,56 @@ I would like to discuss kickoff and availability!`;
             {/* Right Summary Card */}
             <div className="lg:col-span-5 sticky top-24 rounded-2xl bg-white border-2 border-[#2A1E17] p-6 sm:p-7 space-y-5 shadow-sm">
               <span className="text-xs font-bold text-[#A39171] uppercase tracking-wider block">
-                Itemized Estimate Summary
+                Selected Scope & Quotation Request
               </span>
 
               <div className="space-y-3 py-3 border-y border-[#F2ECE1] text-xs sm:text-sm">
-                <div className="flex justify-between items-center text-[#5C4A3C]">
-                  <span>Website Base:</span>
-                  <span className="font-mono font-bold text-[#2A1E17] tabular-nums">
-                    {formatPrice(websitePrices[calcWebsite], Math.round(websitePrices[calcWebsite] / 56))}
+                <div className="space-y-1">
+                  <span className="text-xs font-semibold text-[#8C7A68] uppercase tracking-wider block">Website Type:</span>
+                  <span className="font-bold text-[#2A1E17] block">
+                    {scopeWebsite === 'starter-basic' && 'Single-Page Basic Website'}
+                    {scopeWebsite === 'starter-immersive' && 'Single-Page Immersive (Scroll Effects + 2 Free Posters)'}
+                    {scopeWebsite === 'multipage' && 'Multi-Page Website (Up to 4 Pages + 4 Free Posters)'}
+                    {scopeWebsite === 'redesign' && 'Website Redesign & Modernization (Site Makeover)'}
+                    {scopeWebsite === 'campaign' && 'Campaign & Event Landing Page'}
+                    {scopeWebsite === 'none' && 'No Website (Graphics & Care Only)'}
                   </span>
                 </div>
 
-                {calcPosters > 0 && (
-                  <div className="flex justify-between items-center text-[#5C4A3C]">
-                    <span>{calcPosters} Extra Social Posters:</span>
-                    <span className="font-mono font-bold text-[#2A1E17] tabular-nums">
-                      {formatPrice(posterPrices[calcPosters], Math.round(posterPrices[calcPosters] / 56))}
-                    </span>
-                  </div>
-                )}
-
-                {calcRush && (
-                  <div className="flex justify-between items-center text-[#5C4A3C]">
-                    <span>Rush Expedited Service:</span>
-                    <span className="font-mono font-bold text-[#2A1E17] tabular-nums">
-                      {formatPrice(rushFee, 36)}
-                    </span>
-                  </div>
-                )}
-
-                <div className="pt-3 border-t border-[#F2ECE1] flex justify-between items-baseline">
-                  <span className="font-bold text-[#2A1E17]">One-Time Total:</span>
-                  <span className="text-2xl sm:text-3xl font-black text-[#2A1E17] font-mono tabular-nums">
-                    {formatPrice(totalOneTimePHP, totalOneTimeUSD)}
-                  </span>
+                <div className="space-y-1 pt-2 border-t border-[#F2ECE1]">
+                  <span className="text-xs font-semibold text-[#8C7A68] uppercase tracking-wider block">Selected Features:</span>
+                  <ul className="space-y-1 text-xs text-[#5C4A3C]">
+                    {scopeAddons.booking && <li>✓ Booking & Schedule System Integration</li>}
+                    {scopeAddons.catalog && <li>✓ Digital Product Catalog / QR Menu</li>}
+                    {scopeAddons.brandAssets && <li>✓ Brand & Social Launch Assets (Covers, Colors, QR Payment Cards)</li>}
+                    {scopeAddons.posters3 && <li>✓ Social Media Poster Bundle (3-Pack)</li>}
+                    {scopeAddons.posters8 && <li>✓ Social Media Campaign Bundle (8-Pack)</li>}
+                    {scopeAddons.maintenance && <li>✓ Monthly Site Care & Updates</li>}
+                    {!scopeAddons.booking && !scopeAddons.catalog && !scopeAddons.brandAssets && !scopeAddons.posters3 && !scopeAddons.posters8 && !scopeAddons.maintenance && (
+                      <li className="text-[#8C7A68] italic">Standard package inclusions</li>
+                    )}
+                  </ul>
                 </div>
 
-                {monthlyPHP > 0 && (
-                  <div className="p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E8DFD3] flex justify-between items-center mt-2">
-                    <div className="space-y-0.5">
-                      <span className="font-bold text-xs sm:text-sm text-[#2A1E17] block">Monthly Care Plan:</span>
-                      <span className="text-xs text-[#7C6958]">
-                        {calcMaintenance === 'guardian' ? 'Site Guardian' : 'Growth (Site + 4 Posters/mo)'}
-                      </span>
-                    </div>
-                    <span className="font-mono font-bold text-[#2A1E17] text-base sm:text-lg tabular-nums">
-                      {formatPrice(monthlyPHP, monthlyUSD)}/mo
-                    </span>
-                  </div>
-                )}
+                <div className="pt-2 border-t border-[#F2ECE1] flex justify-between items-center text-xs">
+                  <span className="font-semibold text-[#8C7A68] uppercase tracking-wider">Timeline:</span>
+                  <span className="font-bold text-[#2A1E17]">{scopeRush ? 'Priority Rush (48–72 Hours)' : 'Standard (3–10 Days)'}</span>
+                </div>
+
+                <div className="pt-3 border-t border-[#F2ECE1] space-y-1">
+                  <span className="text-xs font-semibold text-[#8C7A68] uppercase tracking-wider block">Quotation:</span>
+                  <span className="text-xl sm:text-2xl font-black text-[#2A1E17] block">
+                    Send a message for a quotation
+                  </span>
+                  <p className="text-xs text-[#7C6958]">
+                    We will review your selected scope and reply with an honest quotation.
+                  </p>
+                </div>
               </div>
 
               <div className="text-xs text-[#7C6958] space-y-1.5 leading-relaxed">
-                <div>• 50% Kickoff Deposit (₱{Math.round(totalOneTimePHP / 2).toLocaleString()}) to begin</div>
+                <div>• 50% Kickoff Downpayment upon start of design</div>
+                <div>• 2–3 revision rounds included on staging (negotiable)</div>
                 <div>• 50% Remaining only upon your approval & live domain launch</div>
                 <div>• Accepted: GCash, Maya, BDO, BPI, UnionBank, PayPal</div>
               </div>
@@ -1468,19 +1673,23 @@ I would like to discuss kickoff and availability!`;
                   className="w-full py-3 px-4 rounded-xl bg-[#F3EDE3] hover:bg-[#E8DFD3] text-[#2A1E17] font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-colors cursor-pointer"
                 >
                   {copiedEstimate ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
-                  <span>{copiedEstimate ? 'Copied to Clipboard!' : 'Copy Quote for Messenger / Notes'}</span>
+                  <span>{copiedEstimate ? 'Copied Message to Clipboard!' : 'Copy Quotation Request Text'}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => {
-                    setFormData((prev) => ({ ...prev, notes: quoteSummaryText }));
+                    setFormData((prev) => ({ 
+                      ...prev, 
+                      service: scopeWebsite,
+                      notes: quoteSummaryText 
+                    }));
                     scrollTo('contact');
                   }}
                   className="w-full py-3 px-4 rounded-xl bg-[#2A1E17] hover:bg-[#3E2D23] text-white font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-colors cursor-pointer shadow-xs"
                 >
                   <Send className="w-4 h-4" />
-                  <span>Use This Estimate in Form Below</span>
+                  <span>Use This Scope in Form Below</span>
                 </button>
               </div>
             </div>
@@ -1495,38 +1704,119 @@ I would like to discuss kickoff and availability!`;
             <span className="text-xs uppercase font-bold tracking-wider text-[#8C7A68] block">Client Proof</span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1F1611] tracking-tight">Featured Real Projects</h2>
             <p className="text-sm sm:text-base text-[#6E5948] leading-relaxed text-pretty">
-              Here is an example of what we build for local Philippine coaches, academies, and business brands.
+              Here are real websites and digital platforms we design and build for local Philippine coaches, academies, car rentals, and businesses.
             </p>
           </div>
 
-          {/* Project 1: Ongoing Project Showcase */}
-          <div className="rounded-2xl bg-white border border-[#D9CEBE] overflow-hidden shadow-sm">
-            {/* Window title bar */}
-            <div className="px-4 sm:px-6 py-3.5 bg-[#F6F2EB] border-b border-[#E8DFD3] flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <div className="flex space-x-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#E57373]/80"></span>
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FFB74D]/80"></span>
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#81C784]/80"></span>
+          <div className="space-y-12 sm:space-y-14">
+            {/* Project 1: Merilles Chess Academy */}
+            <div className="rounded-2xl bg-white border border-[#D9CEBE] overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              {/* Window title bar */}
+              <div className="px-4 sm:px-6 py-3.5 bg-[#F6F2EB] border-b border-[#E8DFD3] flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <div className="flex space-x-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#E57373]/80"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FFB74D]/80"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#81C784]/80"></span>
+                  </div>
+                  <span className="text-xs sm:text-sm font-semibold text-[#5C4A3C] ml-2 font-mono">
+                    thekpbvisuals.com/showcase/merilles-chess-academy
+                  </span>
                 </div>
-                <span className="text-xs sm:text-sm font-semibold text-[#5C4A3C] ml-2">
-                  Ongoing Project — Merilles Chess Academy
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#2A1E17] text-[#FBF9F5]">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  In Development
                 </span>
               </div>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#2A1E17] text-[#FBF9F5]">
-                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                In Development
-              </span>
+
+              {/* Updated website preview image */}
+              <div className="w-full bg-[#0C1F38] border-b border-[#E8DFD3]">
+                <img
+                  src="/assets/aistudio/image_65e3049d.png"
+                  alt="Featured Project: Merilles Chess Academy Website Preview"
+                  className="w-full h-auto block object-cover"
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Project Details Footer */}
+              <div className="p-5 sm:p-6 bg-white space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-bold text-[#1F1611]">Merilles Chess Academy (MCA)</h3>
+                    <p className="text-xs sm:text-sm font-medium text-[#8C7A68]">
+                      "Learn Chess with Purpose. Compete with Confidence." — Founded by Arena Grandmaster Nezil Arj M. Merilles
+                    </p>
+                  </div>
+                  <span className="self-start sm:self-auto text-xs font-bold text-[#2A1E17] bg-[#F6F1E9] px-3 py-1 rounded-lg border border-[#E2D6C5]">
+                    Multi-Page Academy Hub
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-[#6E5948] leading-relaxed text-pretty">
+                  Custom multi-page training platform featuring private 1-on-1 online lessons booking, weekend classroom batches in Calapan City, structured programs & rates, photo gallery, coach bio, and real-time Manila time synchronization.
+                </p>
+                <div className="flex flex-wrap gap-2 pt-1 text-xs text-[#5C4A3C]">
+                  <span className="px-2.5 py-1 rounded-md bg-[#FBF9F5] border border-[#E8DFD3] font-medium">✓ Multi-Page Architecture</span>
+                  <span className="px-2.5 py-1 rounded-md bg-[#FBF9F5] border border-[#E8DFD3] font-medium">✓ Schedule & Enrollment Flow</span>
+                  <span className="px-2.5 py-1 rounded-md bg-[#FBF9F5] border border-[#E8DFD3] font-medium">✓ Time-Sync Widget</span>
+                  <span className="px-2.5 py-1 rounded-md bg-[#FBF9F5] border border-[#E8DFD3] font-medium">✓ 100% Mobile Responsive</span>
+                </div>
+              </div>
             </div>
 
-            {/* Actual ongoing website preview image */}
-            <div className="w-full bg-[#071931]">
-              <img
-                src="/assets/aistudio/image_83f664db.png"
-                alt="Ongoing Project: Merilles Chess Academy Website Preview"
-                className="w-full h-auto block object-cover"
-                loading="lazy"
-              />
+            {/* Project 2: GET2GO Car Rentals */}
+            <div className="rounded-2xl bg-white border border-[#D9CEBE] overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              {/* Window title bar */}
+              <div className="px-4 sm:px-6 py-3.5 bg-[#F6F2EB] border-b border-[#E8DFD3] flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <div className="flex space-x-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#E57373]/80"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FFB74D]/80"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#81C784]/80"></span>
+                  </div>
+                  <span className="text-xs sm:text-sm font-semibold text-[#5C4A3C] ml-2 font-mono">
+                    thekpbvisuals.com/showcase/get2go-car-rentals
+                  </span>
+                </div>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#2A1E17] text-[#FBF9F5]">
+                  <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                  Client Showcase
+                </span>
+              </div>
+
+              {/* Website preview image */}
+              <div className="w-full bg-[#0B0F12] border-b border-[#E8DFD3]">
+                <img
+                  src="/assets/aistudio/image_be82efdc.png"
+                  alt="Featured Project: GET2GO Car Rentals Website Preview"
+                  className="w-full h-auto block object-cover"
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Project Details Footer */}
+              <div className="p-5 sm:p-6 bg-white space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-bold text-[#1F1611]">GET2GO Car Rentals</h3>
+                    <p className="text-xs sm:text-sm font-medium text-[#8C7A68]">
+                      "Clean Cars. Cold AC. Zero Surprise Fees." — Calapan, Oriental Mindoro
+                    </p>
+                  </div>
+                  <span className="self-start sm:self-auto text-xs font-bold text-[#2A1E17] bg-[#F6F1E9] px-3 py-1 rounded-lg border border-[#E2D6C5]">
+                    Fleet & Booking Platform
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-[#6E5948] leading-relaxed text-pretty">
+                  Sleek, high-converting car rental platform serving Calapan Port, local hotels, and out-of-town/RoRo travelers heading to Puerto Galera, Southern Mindoro, and Batangas mainland. Features interactive date pickup calculator, fleet categories, and curbside delivery setup.
+                </p>
+                <div className="flex flex-wrap gap-2 pt-1 text-xs text-[#5C4A3C]">
+                  <span className="px-2.5 py-1 rounded-md bg-[#FBF9F5] border border-[#E8DFD3] font-medium">✓ Quick Rental Date Estimator</span>
+                  <span className="px-2.5 py-1 rounded-md bg-[#FBF9F5] border border-[#E8DFD3] font-medium">✓ Port & Hotel Curbside Delivery</span>
+                  <span className="px-2.5 py-1 rounded-md bg-[#FBF9F5] border border-[#E8DFD3] font-medium">✓ Out-of-Town & RoRo Booking</span>
+                  <span className="px-2.5 py-1 rounded-md bg-[#FBF9F5] border border-[#E8DFD3] font-medium">✓ Clean Dark Aesthetic</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1695,19 +1985,23 @@ I would like to discuss kickoff and availability!`;
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-semibold text-[#d8c3a5] block">Select Package</label>
+                      <label className="text-xs font-semibold text-[#d8c3a5] block">Select Service</label>
                       <select 
                         value={formData.service}
                         onChange={(e) => setFormData({...formData, service: e.target.value})}
                         className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1E17] border border-[#483323] text-white focus:outline-none focus:border-amber-400 cursor-pointer text-sm"
                       >
-                        <option value="starter-basic">Starter: Basic Landing Page (₱9,999)</option>
-                        <option value="starter-immersive">Starter: Immersive Experience (₱12,499)</option>
-                        <option value="multipage">Multi-Page Website (Starts at ₱17,999)</option>
-                        <option value="maintenance-guardian">Monthly: Site Guardian (Starts at ₱999/mo - subject to request)</option>
-                        <option value="maintenance-growth">Monthly: Growth Partner (Web + 4 Posters) (Starts at ₱1,999/mo - subject to request)</option>
-                        <option value="posters-starter">Social Media: Starter 3-Pack (₱999)</option>
-                        <option value="posters-campaign">Social Media: Campaign 8-Pack (₱2,499)</option>
+                        <option value="starter-basic">Single-Page Basic Website</option>
+                        <option value="starter-immersive">Single-Page Immersive Website</option>
+                        <option value="multipage">Multi-Page Website (Up to 4 Pages)</option>
+                        <option value="redesign">Website Redesign & Modernization</option>
+                        <option value="campaign">Campaign & Event Landing Page</option>
+                        <option value="booking">Booking & Schedule System</option>
+                        <option value="catalog">Digital Product Catalog & QR Menu</option>
+                        <option value="brandAssets">Brand & Social Launch Assets</option>
+                        <option value="posters">Social Media Graphics / Posters</option>
+                        <option value="monthly-care">Monthly Website Care & Updates</option>
+                        <option value="custom">Multiple Services / Custom Scope</option>
                       </select>
                     </div>
 
@@ -1718,20 +2012,20 @@ I would like to discuss kickoff and availability!`;
                         onChange={(e) => setFormData({...formData, timeline: e.target.value})}
                         className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1E17] border border-[#483323] text-white focus:outline-none focus:border-amber-400 cursor-pointer text-sm"
                       >
-                        <option value="urgent">Rush (48–72 Hours)</option>
                         <option value="standard">Standard (3–10 Days)</option>
-                        <option value="flexible">Flexible / Planning</option>
+                        <option value="urgent">Rush Priority (48–72 Hours)</option>
+                        <option value="flexible">Flexible / Planning Stage</option>
                       </select>
                     </div>
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#d8c3a5] block">Tell me a little about your project</label>
+                    <label className="text-xs font-semibold text-[#d8c3a5] block">Tell us about your project</label>
                     <textarea 
                       rows={3}
                       value={formData.notes}
                       onChange={(e) => setFormData({...formData, notes: e.target.value})}
-                      placeholder="What kind of website or graphics are you looking for?"
+                      placeholder="Tell us about your business and what kind of website or graphics you need."
                       className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1E17] border border-[#483323] text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 resize-none text-sm"
                     />
                   </div>
@@ -1741,7 +2035,7 @@ I would like to discuss kickoff and availability!`;
                     className="w-full py-3 rounded-xl font-bold text-xs sm:text-sm bg-amber-400 hover:bg-amber-300 text-stone-950 transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
                   >
                     <Send className="w-4 h-4" />
-                    <span>Send Message</span>
+                    <span>Send Message for Quotation</span>
                   </button>
                 </form>
               )}
